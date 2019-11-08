@@ -31,6 +31,19 @@ export default {
     return {
       nickname: ''
     }
+  },
+  methods: {
+    login () {
+      let data = {
+        username: 'zs',
+        password: '123456'
+      }
+      this.$api.login.login(data).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>
