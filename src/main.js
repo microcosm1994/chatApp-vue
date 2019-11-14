@@ -3,6 +3,7 @@ import App from './App'
 import router from './router'
 import element from 'element-ui'
 import http from './http'
+import utils from './utils'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/publick.css'
 
