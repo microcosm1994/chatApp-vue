@@ -7,32 +7,16 @@
         </div>
         <div class="login-form-box" v-if="isShow">
           <div class="login-form-input">
-            <div class="form-input-code">
-              <el-input
-                placeholder="输入手机号"
-                v-model="phone"
-                size="small"
-                clearable>
-              </el-input>
-            </div>
+            <el-input
+              placeholder="输入手机号"
+              v-model="phone"
+              :maxlength="11"
+              size="small"
+              clearable>
+            </el-input>
           </div>
           <div class="login-form-btn">
-            <el-button class="form-btn" size="mini" @click="getMessageCode">获取短信验证码</el-button>
-          </div>
-        </div>
-        <div class="login-form-box" v-if="!isShow">
-          <div class="login-form-input">
-            <div class="form-input-phone">
-              <el-input
-                placeholder="输入短信验证码"
-                v-model="code"
-                size="small"
-                clearable>
-              </el-input>
-            </div>
-          </div>
-          <div class="login-form-btn">
-            <el-button class="form-btn" size="mini" @click="checkingCode">进入网站</el-button>
+            <el-button class="form-btn" icon="el-icon-check" size="mini" @click="login"></el-button>
           </div>
         </div>
       </div>
@@ -54,29 +38,21 @@ export default {
     }
   },
   methods: {
-    getMessageCode () {
+    login () {
+      // 判断是否为空
       if (!this.phone) {
         this.$message.info('请输入手机号')
+        return false
+      }
+      // 判断格式是否正确
+      if (!this.$utils.regexp.isPhone(this.phone)) {
+        this.$message.info('请输入正确的手机号')
         return false
       }
       let data = {
         phone: this.phone
       }
-      this.$api.login.getMessageCode(data).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    checkingCode () {
-      if (!this.phone) {
-        this.$message.info('请输入手机号')
-        return false
-      }
-      let data = {
-        phone: this.phone
-      }
-      this.$api.login.checkingCode(data).then(res => {
+      this.$api.login.login(data).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
@@ -86,7 +62,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   @import "../assets/css/login.css";
 </style>

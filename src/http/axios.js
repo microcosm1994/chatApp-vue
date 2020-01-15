@@ -50,21 +50,22 @@ export default function $axios (options) {
     // 响应拦截
     instance.interceptors.response.use(
       response => {
+        console.log(response)
         let data
-        if (response.data === undefined) {
-          data = JSON.parse(response.request.responseText)
-        } else {
+        if (response.data) {
           data = response.data
+        } else {
+          data = JSON.parse(response.request.responseText)
         }
         // 根据返回的错误码做不同的处理
-        switch (data.status) {
-          case 1:
-            break
-          case 2:
-            break
-          default:
-            break
-        }
+        // switch (data.status) {
+        //   case 1:
+        //     break
+        //   case 2:
+        //     break
+        //   default:
+        //     break
+        // }
         // 返回响应
         return data
       },
@@ -83,10 +84,9 @@ export default function $axios (options) {
     )
     // 请求处理
     instance(options).then(res => {
-      resolve(res)
-      return false
+      return resolve(res)
     }).catch(error => {
-      reject(error)
+      return reject(error)
     })
   })
 }

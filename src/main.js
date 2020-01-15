@@ -10,6 +10,7 @@ import './assets/css/publick.css'
 Vue.use(element)
 Vue.use(http)
 Vue.config.productionTip = false
+Vue.prototype.$utils = utils
 
 /* eslint-disable no-new */
 new Vue({
