@@ -1,0 +1,146 @@
+.home {
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+}
+.home .header {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  padding-left: 200px;
+  padding-right: 200px;
+  border-bottom: 1px solid #110F20;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  background: #1B172F;
+}
+.home .header .header-logo {
+  display: inline-block;
+  vertical-align: top;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 26px;
+  color: #FFE900;
+}
+.home .header .header-menu {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  height: 50px;
+}
+.home .header .header-menu ul {
+  text-align: center;
+}
+.home .header .header-menu ul .header-menu-item {
+  display: inline-block;
+  vertical-align: top;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+}
+.home .header .header-set {
+  display: inline-block;
+  vertical-align: top;
+  width: 200px;
+  height: 50px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  line-height: 50px;
+  text-align: center;
+}
+.home .header .header-set .header-set-avatar {
+  display: inline-block;
+  vertical-align: top;
+  height: 50px;
+}
+.home .header .header-set .header-set-avatar .el-avatar {
+  margin-top: 10px;
+}
+.home .header .header-set .header-set-dropdown {
+  display: inline-block;
+  vertical-align: top;
+}
+.home .header .header-set .header-set-dropdown .el-dropdown {
+  cursor: pointer;
+  color: #fff;
+}
+.home .el-container {
+  height: 100%;
+}
+.home .el-container .el-aside {
+  position: relative;
+}
+.home .el-container .el-aside .aside {
+  background: #110F20;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 10px;
+}
+.home .el-container .el-aside .aside ul .aside-item {
+  width: 100%;
+  height: 50px;
+  display: block;
+  margin-top: 10px;
+}
+.home .el-container .el-aside .aside ul .aside-item:hover {
+  background: #F2F1F6;
+}
+.home .el-container .el-aside .aside ul .aside-item span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  font-size: 25px;
+}
+.home .el-container .el-aside .aside ul .aside-item span:hover {
+  color: #110F20;
+}
+.home .el-container .el-aside .aside .aside-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 70px;
+  height: 50px;
+}
+.home .el-container .el-aside .aside .aside-bottom:hover {
+  background: #F2F1F6;
+}
+.home .el-container .el-aside .aside .aside-bottom span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  font-size: 25px;
+}
+.home .el-container .el-aside .aside .aside-bottom span:hover {
+  color: #110F20;
+}
+.home .el-container .el-main {
+  padding: 0;
+  background: #fff;
+  overflow: hidden;
+}
+.home .el-container .el-main .home-main {
+  height: 100%;
+  overflow: auto;
+}
+/*# sourceMappingURL=home.css.map */

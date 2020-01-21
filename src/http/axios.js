@@ -2,12 +2,12 @@ import axios from 'axios'
 import Config from './config'
 import cookies from 'js-cookie'
 import router from '../router'
+import element from 'element-ui'
 
 export default function $axios (options) {
   return new Promise((resolve, reject) => {
     // 创建axios实例
     const instance = axios.create({
-      baseURL: Config.baseUrl,
       headers: Config.headers,
       timeout: Config.timeout,
       withCredentials: Config.withCredentials
@@ -15,6 +15,7 @@ export default function $axios (options) {
     // 请求拦截
     instance.interceptors.request.use(
       config => {
+        config.baseURL = Config.baseURL
         // 获取token
         let t = cookies.get('t')
         // 携带token
@@ -22,7 +23,7 @@ export default function $axios (options) {
           config.headers.t = t
         } else {
           // 如果没有token，重定向到登陆页
-          router.push('/login')
+          // router.push('/login')
         }
         // 根据请求方法，序列化传来的参数（根据后端需求是否序列化）
         if (config.method === 'post') {
@@ -50,7 +51,6 @@ export default function $axios (options) {
     // 响应拦截
     instance.interceptors.response.use(
       response => {
-        console.log(response)
         let data
         if (response.data) {
           data = response.data
@@ -58,14 +58,17 @@ export default function $axios (options) {
           data = JSON.parse(response.request.responseText)
         }
         // 根据返回的错误码做不同的处理
-        // switch (data.status) {
-        //   case 1:
-        //     break
-        //   case 2:
-        //     break
-        //   default:
-        //     break
-        // }
+        switch (data.status) {
+          case 0:
+            element.Message.error(data.msg)
+            break
+          case 1:
+            element.Message.success(data.msg)
+            break
+          default:
+            element.Message.info(data.msg)
+            break
+        }
         // 返回响应
         return data
       },

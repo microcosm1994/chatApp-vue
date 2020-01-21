@@ -1,0 +1,145 @@
+.index {
+  width: 100%;
+  background: #F2F1F6;
+  padding: 20px;
+}
+.index .index-header {
+  width: 100%;
+  height: 100px;
+  background: #1F1B38;
+  border-radius: 5px;
+  display: flex;
+}
+.index .index-header .index-header-user {
+  flex: 1;
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+.index .index-header .index-header-time {
+  flex: 1;
+  width: 200px;
+  height: 100px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 100px;
+  color: #fff;
+}
+.index .index-header .index-header-weather {
+  flex: 1;
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+.index .index-container {
+  margin-top: 20px;
+  overflow: hidden;
+}
+.index .index-container .index-container-leftBox {
+  width: 49%;
+  float: left;
+  left: 0;
+}
+.index .index-container .index-container-leftBox .index-container-noteList {
+  width: 100%;
+  height: 300px;
+  background: #f9f9f9;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 30px;
+}
+.index .index-container .index-container-leftBox .index-container-noteList:nth-child(1) {
+  margin-top: 0;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-header {
+  display: flex;
+  height: 52px;
+  background: #1F1B38;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-header .noteList-header-title {
+  color: #fff;
+  font-size: 16px;
+  flex: 6;
+  line-height: 52px;
+  text-align: center;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-header .noteList-header-tool {
+  flex: 1;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-header .noteList-header-tool .icon {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  color: #fff;
+  font-weight: 600;
+  line-height: 52px;
+  cursor: pointer;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-content {
+  padding: 0 15px;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-content ul .noteList-content-item {
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px dashed #666;
+  position: relative;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-content ul .noteList-content-item:hover {
+  height: 50px;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-content ul .noteList-content-item .item-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 40px;
+  padding-left: 10px;
+  padding-right: 30px;
+  color: #333;
+  cursor: pointer;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-content ul .noteList-content-item .item-content:hover {
+  font-size: 16px;
+  font-weight: 600;
+  height: 50px;
+  line-height: 50px;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-content ul .noteList-content-item .item-del {
+  width: 30px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  line-height: 40px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+}
+.index .index-container .index-container-leftBox .index-container-noteList .noteList-content ul .noteList-content-item .item-del:hover {
+  font-size: 18px;
+  font-weight: 600;
+  height: 50px;
+  line-height: 50px;
+}
+.index .index-container .index-container-calendar {
+  display: inline-block;
+  vertical-align: top;
+  width: 49%;
+  float: right;
+  right: 0;
+}
+/*# sourceMappingURL=index.css.map */

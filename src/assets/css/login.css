@@ -36,6 +36,7 @@
 .login .login-form .login-form-left .login-form-box .login-form-btn .form-btn {
   background: #f5f5f5;
   color: #202020;
+  margin-left: 10px;
 }
 .login .login-form .login-form-left .login-form-box .login-form-btn .form-btn:hover {
   background: #202020;
