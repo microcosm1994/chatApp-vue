@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Config from './config'
-import cookies from 'js-cookie'
+import utils from '../utils'
 import router from '../router'
 import element from 'element-ui'
 
@@ -17,13 +17,13 @@ export default function $axios (options) {
       config => {
         config.baseURL = Config.baseURL
         // 获取token
-        let t = cookies.get('t')
+        let t = utils.cookie.get('t')
         // 携带token
         if (t) {
           config.headers.t = t
         } else {
           // 如果没有token，重定向到登陆页
-          // router.push('/login')
+          router.push('/')
         }
         // 根据请求方法，序列化传来的参数（根据后端需求是否序列化）
         if (config.method === 'post') {
@@ -73,8 +73,9 @@ export default function $axios (options) {
         return data
       },
       error => {
-        if (error && error.response.status) {
-          switch (error.response.status) {
+        console.log(error)
+        if (error && error.response.status()) {
+          switch (error.response.status()) {
             case 400:
               error.message = '请求错误'
               break

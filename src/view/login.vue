@@ -92,6 +92,9 @@ export default {
       }
       this.$api.login.checkCode(data).then(res => {
         if (res.status) {
+          this.$utils.cookie.set('t', res.t, {
+            expires: 1
+          })
           this.$router.push({
             path: '/index'
           })
