@@ -4,6 +4,6 @@ export default {
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   },
-  timeout: 3000,
+  timeout: 10000,
   withCredentials: true
 }

@@ -33,7 +33,7 @@
           </div>
           <div class="login-form-btn">
             <el-tooltip class="item" effect="dark" content="重新发送短信验证码" placement="top-start">
-              <el-button class="form-btn" icon="el-icon-refresh-right" size="mini" @click="checkCode"></el-button>
+              <el-button class="form-btn" icon="el-icon-refresh-right" size="mini" @click="login"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="点击登陆" placement="top-start">
               <el-button class="form-btn" icon="el-icon-check" size="mini" @click="checkCode"></el-button>
@@ -75,6 +75,7 @@ export default {
         phone: this.phone
       }
       this.$api.login.login(data).then(res => {
+        this.isShow = false
         if (res.status) {
           this.isShow = false
         }

@@ -3,7 +3,6 @@ import db from './db'
 export default {
   cookies: () => {
     let cookies = {}
-    console.log(document.cookie)
     document.cookie.split(';').forEach(function (res) {
       if (res) {
         let arr = res.split('=')
@@ -12,8 +11,9 @@ export default {
     })
     return cookies
   },
-  get: () => {
+  get: (name) => {
     let cookies = this.a.cookies()
+    console.log(cookies)
     let cookie = cookies[name]
     return decodeURIComponent(cookie)
   },

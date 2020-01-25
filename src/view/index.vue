@@ -89,6 +89,7 @@ export default {
   },
   mounted () {
     this.greetings()
+    this.getUserList()
     this.timer = setInterval(() => {
       this.formatTime()
     }, 1000)
@@ -118,6 +119,17 @@ export default {
       if (h > 19 && h < 24) {
         this.greetingValue = '晚上好'
       }
+    },
+    getUserList () {
+      let data = {
+        offset: 0,
+        limit: 20
+      }
+      this.$api.user.getUserList(data).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 }

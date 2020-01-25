@@ -89,6 +89,7 @@ export default {
       }
     },
     loginOut () {
+      this.$utils.cookie.remove('t')
       this.$router.push({
         path: '/'
       })

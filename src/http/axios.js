@@ -2,7 +2,7 @@ import axios from 'axios'
 import Config from './config'
 import utils from '../utils'
 import router from '../router'
-import element from 'element-ui'
+import {Message} from 'element-ui'
 
 export default function $axios (options) {
   return new Promise((resolve, reject) => {
@@ -60,24 +60,30 @@ export default function $axios (options) {
         // 根据返回的错误码做不同的处理
         switch (data.status) {
           case 0:
-            element.Message.error(data.msg)
+            Message.error(data.msg)
             break
           case 1:
-            element.Message.success(data.msg)
+            Message.success(data.msg)
             break
           default:
-            element.Message.info(data.msg)
+            Message.info(data.msg)
             break
         }
         // 返回响应
         return data
       },
       error => {
-        console.log(error)
-        if (error && error.response.status()) {
-          switch (error.response.status()) {
+        let data = error.response.data
+        console.log(error.response)
+        if (error && error.response.status) {
+          switch (error.response.status) {
             case 400:
               error.message = '请求错误'
+              break
+            case 401:
+              Message.error(data.msg)
+              error.message = 'token验证错误'
+              router.push('/')
               break
             default:
               break
