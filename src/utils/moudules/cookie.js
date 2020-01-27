@@ -18,7 +18,8 @@ export default {
     return decodeURIComponent(cookie)
   },
   set: (key, value, options) => {
-    if (!key || /^(?:expires|max\-age|path|domain|secure)$/i.test(key)) {
+    let reg = /^(?:expires|max-age|path|domain|secure)$/i
+    if (!key || reg.test(key)) {
       return false
     }
     if (!value) {

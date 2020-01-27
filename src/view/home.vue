@@ -21,7 +21,7 @@
         <div class="header-set-dropdown">
           <el-dropdown trigger="click" @command="handleCommand">
       <span class="el-dropdown-link">
-        杜波<i class="el-icon-arrow-down el-icon--right"></i>
+        {{user.nickName}}<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item :command="1">个人信息</el-dropdown-item>
@@ -35,20 +35,20 @@
       <el-aside width="70px">
         <div class="aside">
           <ul>
-            <li class="aside-item">
-              <span class="el-icon-chat-dot-square"></span>
+            <li :class="{'aside-item': true, 'aside-item_active': menuActive === 1}" @click="handleMenu">
+              <span :index="1" class="el-icon-chat-dot-square"></span>
             </li>
-            <li class="aside-item">
-              <span class="el-icon-user"></span>
+            <li :class="{'aside-item': true, 'aside-item_active': menuActive === 2}" @click="handleMenu">
+              <span :index="2" class="el-icon-user"></span>
             </li>
-            <li class="aside-item">
-              <span class="el-icon-collection-tag "></span>
+            <li :class="{'aside-item': true, 'aside-item_active': menuActive === 3}" @click="handleMenu">
+              <span :index="3" class="el-icon-collection-tag "></span>
             </li>
-            <li class="aside-item">
-              <span class="el-icon-folder"></span>
+            <li :class="{'aside-item': true, 'aside-item_active': menuActive === 4}" @click="handleMenu">
+              <span :index="4" class="el-icon-folder"></span>
             </li>
-            <li class="aside-item">
-              <span class="el-icon-menu"></span>
+            <li :class="{'aside-item': true, 'aside-item_active': menuActive === 5}" @click="handleMenu">
+              <span :index="5" class="el-icon-menu"></span>
             </li>
           </ul>
           <div class="aside-bottom">
@@ -57,8 +57,15 @@
         </div>
       </el-aside>
       <el-main>
-        <div class="home-main">
-          <router-view/>
+        <div :class="{'home-main': true, ' home-main-show': menuActive}">
+          <div class="home-main-asid" v-if="menuActive">
+            <keep-alive>
+              <component v-bind:is="asideComments" :closeCallback="closeAside"></component>
+            </keep-alive>
+          </div>
+          <div class="home-main-view">
+            <router-view/>
+          </div>
         </div>
       </el-main>
     </el-container>
@@ -66,15 +73,30 @@
 </template>
 
 <script>
+import contactts from '../components/aside/contacts'
+import history from '../components/aside/history'
 export default {
   name: 'home',
   data () {
     return {
       isShow: true,
+      menuActive: 0,
       phone: '',
       code: '',
-      isLoading: false
+      isLoading: false,
+      asideComments: ''
     }
+  },
+  components: {
+    contactts,
+    history
+  },
+  computed: {
+    user: function () {
+      return this.$store.state.user
+    }
+  },
+  mounted () {
   },
   methods: {
     handleCommand (command) {
@@ -93,6 +115,22 @@ export default {
       this.$router.push({
         path: '/'
       })
+    },
+    handleMenu (e) {
+      this.menuActive = e.target.attributes.index.value - 0
+      switch (this.menuActive) {
+        case 1:
+          this.asideComments = 'history'
+          break
+        case 2:
+          this.asideComments = 'contactts'
+          break
+        default:
+          break
+      }
+    },
+    closeAside () {
+      this.menuActive = 0
     }
   }
 }

@@ -2,9 +2,11 @@
   width: 100%;
   height: 100%;
   padding-top: 50px;
+  min-width: 1000px;
 }
 .home .header {
   width: 100%;
+  min-width: 1000px;
   height: 50px;
   position: fixed;
   padding-left: 200px;
@@ -89,6 +91,12 @@
   left: 0;
   padding-top: 10px;
 }
+.home .el-container .el-aside .aside ul .aside-item.aside-item_active {
+  background: #F2F1F6;
+}
+.home .el-container .el-aside .aside ul .aside-item.aside-item_active span {
+  color: #110F20;
+}
 .home .el-container .el-aside .aside ul .aside-item {
   width: 100%;
   height: 50px;
@@ -97,6 +105,7 @@
 }
 .home .el-container .el-aside .aside ul .aside-item:hover {
   background: #F2F1F6;
+  opacity: 0.8;
 }
 .home .el-container .el-aside .aside ul .aside-item span {
   display: block;
@@ -139,8 +148,25 @@
   background: #fff;
   overflow: hidden;
 }
+.home .el-container .el-main .home-main-show {
+  padding-left: 200px;
+  position: relative;
+}
 .home .el-container .el-main .home-main {
   height: 100%;
   overflow: auto;
+}
+.home .el-container .el-main .home-main .home-main-asid {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  left: 70px;
+  top: 50px;
+  overflow: hidden;
+  background: #F2F1F6;
+}
+.home .el-container .el-main .home-main .home-main-view {
+  display: inline-block;
+  vertical-align: top;
 }
 /*# sourceMappingURL=home.css.map */

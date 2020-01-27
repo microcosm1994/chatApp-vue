@@ -4,6 +4,7 @@ import router from './router'
 import element from 'element-ui'
 import http from './http'
 import utils from './utils'
+import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/publick.css'
 
@@ -11,6 +12,7 @@ Vue.use(element)
 Vue.use(http)
 Vue.config.productionTip = false
 Vue.prototype.$utils = utils
+Vue.prototype.$store = store
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,0 +1,194 @@
+.contacts {
+  width: 105%;
+  height: 100%;
+  background: #ffffff;
+  overflow: auto;
+  padding-bottom: 90px;
+  padding-top: 40px;
+}
+.contacts .contacts-header {
+  width: 200px;
+  height: 40px;
+  padding-right: 40px;
+  background: #421C50;
+  position: fixed;
+  border-bottom: 1px solid #F2F1F6;
+  left: 70px;
+  top: 50px;
+}
+.contacts .contacts-header .contacts-header-title {
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+}
+.contacts .contacts-header .contacts-header-close {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+  line-height: 40px;
+}
+.contacts .contacts-header .contacts-header-close .el-icon-close {
+  color: #fff;
+  cursor: pointer;
+}
+.contacts .contacts-header .contacts-header-close .el-icon-close:hover {
+  font-weight: 600;
+}
+.contacts .contacts-container {
+  width: 100%;
+  background: #421C50;
+}
+.contacts .contacts-container .contacts-container-box {
+  width: 100%;
+}
+.contacts .contacts-container .contacts-container-box .box-header {
+  width: 100%;
+  height: 30px;
+  text-align: left;
+  padding-left: 15px;
+  line-height: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+.contacts .contacts-container .contacts-container-box .box-list {
+  background: #ffffff;
+}
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item {
+  width: 100%;
+  height: 40px;
+  display: block;
+  padding-left: 10px;
+  border-bottom: 1px solid #e2e2e2;
+}
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-avator {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  margin-top: 5px;
+}
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-name {
+  display: inline-block;
+  vertical-align: middle;
+  width: 110px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-msg {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-msg span {
+  cursor: pointer;
+  font-size: 14px;
+}
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-msg span:hover {
+  font-weight: 600;
+  font-size: 16px;
+}
+.contacts .contacts-container .contacts-search {
+  width: 200px;
+  background: #421C50;
+  position: fixed;
+  left: 70px;
+  bottom: 0;
+}
+.contacts .contacts-container .contacts-search .contacts-search-top {
+  width: 100%;
+  height: 40px;
+  padding-left: 10px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-top .contacts-search-input {
+  display: inline-block;
+  vertical-align: top;
+  width: 140px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin-top: 5px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-top .contacts-search-btn {
+  display: inline-block;
+  vertical-align: top;
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-top .contacts-search-btn .el-button {
+  padding: 0;
+  width: 30px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container {
+  width: 100%;
+  max-height: 120px;
+  background: #421C50;
+  overflow: hidden;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul {
+  display: block;
+  overflow: auto;
+  width: 105%;
+  max-height: 120px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item {
+  width: 100%;
+  height: 40px;
+  display: block;
+  padding-left: 10px;
+  border-bottom: 1px solid #e2e2e2;
+  background: #ffffff;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item:nth-last-child(1) {
+  margin-bottom: 30px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-avator {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  margin-top: 5px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-name {
+  display: inline-block;
+  vertical-align: middle;
+  width: 110px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-msg {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-msg span {
+  cursor: pointer;
+  font-size: 14px;
+}
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-msg span:hover {
+  font-weight: 600;
+  font-size: 16px;
+}
+/*# sourceMappingURL=contacts.css.map */

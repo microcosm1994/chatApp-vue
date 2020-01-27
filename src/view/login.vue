@@ -93,6 +93,7 @@ export default {
       }
       this.$api.login.checkCode(data).then(res => {
         if (res.status) {
+          this.$store.commit('setUser', res.data)
           this.$utils.cookie.set('t', res.t, {
             expires: 1
           })

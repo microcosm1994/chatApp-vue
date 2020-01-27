@@ -1,0 +1,195 @@
+.contacts {
+  width: 105%;
+  height: 100%;
+  background: #ffffff;
+  overflow: auto;
+  padding-bottom: 90px;
+  padding-top: 40px;
+  .contacts-header {
+    width: 200px;
+    height: 40px;
+    padding-right: 40px;
+    background: #421C50;
+    position: fixed;
+    border-bottom: 1px solid #F2F1F6;
+    left: 70px;
+    top: 50px;
+    .contacts-header-title {
+      width: 100%;
+      height: 100%;
+      line-height: 40px;
+      text-align: center;
+      color: #fff;
+    }
+    .contacts-header-close {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: center;
+      line-height: 40px;
+      .el-icon-close {
+        color: #fff;
+        cursor: pointer;
+        &:hover {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  .contacts-container {
+    width: 100%;
+    background: #421C50;
+    .contacts-container-box {
+      width: 100%;
+      .box-header {
+        width: 100%;
+        height: 30px;
+        text-align: left;
+        padding-left: 15px;
+        line-height: 30px;
+        color: #fff;
+        cursor: pointer;
+      }
+      .box-list {
+        background: #ffffff;
+        ul {
+          .box-list-item {
+            width: 100%;
+            height: 40px;
+            display: block;
+            padding-left: 10px;
+            border-bottom: 1px solid #e2e2e2;
+            .item-avator {
+              display: inline-block;
+              vertical-align: middle;
+              width: 30px;
+              margin-top: 5px;
+            }
+            .item-name {
+              display: inline-block;
+              vertical-align: middle;
+              width: 110px;
+              height: 40px;
+              line-height: 40px;
+              padding-left: 5px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: 14px;
+            }
+            .item-msg{
+              display: inline-block;
+              vertical-align: middle;
+              width: 30px;
+              height: 30px;
+              text-align: center;
+              line-height: 30px;
+              span{
+                cursor: pointer;
+                font-size: 14px;
+                &:hover{
+                  font-weight: 600;
+                  font-size: 16px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .contacts-search{
+      width: 200px;
+      background: #421C50;
+      position: fixed;
+      left: 70px;
+      bottom: 0;
+      .contacts-search-top{
+        width: 100%;
+        height: 40px;
+        padding-left: 10px;
+        .contacts-search-input{
+          display: inline-block;
+          vertical-align: top;
+          width: 140px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          margin-top: 5px;
+        }
+        .contacts-search-btn{
+          display: inline-block;
+          vertical-align: top;
+          width: 40px;
+          height: 40px;
+          margin-top: 8px;
+          .el-button{
+            padding: 0;
+            width: 30px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+          }
+        }
+      }
+      .contacts-search-container{
+        width: 100%;
+        max-height: 120px;
+        background: #421C50;
+        overflow: hidden;
+        ul{
+          display: block;
+          overflow: auto;
+          width: 105%;
+          max-height: 120px;
+          .box-list-item {
+            width: 100%;
+            height: 40px;
+            display: block;
+            padding-left: 10px;
+            border-bottom: 1px solid #e2e2e2;
+            background: #ffffff;
+            &:nth-last-child(1){
+              margin-bottom: 30px;
+            }
+            .item-avator {
+              display: inline-block;
+              vertical-align: middle;
+              width: 30px;
+              margin-top: 5px;
+            }
+            .item-name {
+              display: inline-block;
+              vertical-align: middle;
+              width: 110px;
+              height: 40px;
+              line-height: 40px;
+              padding-left: 5px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: 12px;
+            }
+            .item-msg{
+              display: inline-block;
+              vertical-align: middle;
+              width: 30px;
+              height: 30px;
+              text-align: center;
+              line-height: 30px;
+              span{
+                cursor: pointer;
+                font-size: 14px;
+                &:hover{
+                  font-weight: 600;
+                  font-size: 16px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

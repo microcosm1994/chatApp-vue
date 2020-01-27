@@ -2,8 +2,10 @@
   width: 100%;
   height: 100%;
   padding-top: 50px;
+  min-width: 1000px;
   .header {
     width: 100%;
+    min-width: 1000px;
     height: 50px;
     position: fixed;
     padding-left: 200px;
@@ -86,6 +88,12 @@
         left: 0;
         padding-top: 10px;
         ul{
+          .aside-item.aside-item_active {
+            background: #F2F1F6;
+            span{
+              color: #110F20;
+            }
+          }
           .aside-item{
             width: 100%;
             height: 50px;
@@ -93,6 +101,7 @@
             margin-top: 10px;
             &:hover{
               background: #F2F1F6;
+              opacity: 0.8;
             }
             span{
               display: block;
@@ -138,9 +147,26 @@
       padding: 0;
       background: #fff;
       overflow: hidden;
+      .home-main-show{
+        padding-left: 200px;
+        position: relative;
+      }
       .home-main{
         height: 100%;
         overflow: auto;
+        .home-main-asid{
+          width: 200px;
+          height: 100%;
+          position: fixed;
+          left: 70px;
+          top: 50px;
+          overflow: hidden;
+          background: #F2F1F6;
+        }
+        .home-main-view{
+          display: inline-block;
+          vertical-align: top;
+        }
       }
     }
   }
