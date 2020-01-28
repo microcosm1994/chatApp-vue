@@ -83,7 +83,7 @@
   white-space: nowrap;
   font-size: 14px;
 }
-.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-msg {
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-btn {
   display: inline-block;
   vertical-align: middle;
   width: 30px;
@@ -91,11 +91,11 @@
   text-align: center;
   line-height: 30px;
 }
-.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-msg span {
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-btn span {
   cursor: pointer;
   font-size: 14px;
 }
-.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-msg span:hover {
+.contacts .contacts-container .contacts-container-box .box-list ul .box-list-item .item-btn span:hover {
   font-weight: 600;
   font-size: 16px;
 }
@@ -155,7 +155,7 @@
   background: #ffffff;
 }
 .contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item:nth-last-child(1) {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-avator {
   display: inline-block;
@@ -175,7 +175,7 @@
   white-space: nowrap;
   font-size: 12px;
 }
-.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-msg {
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-btn {
   display: inline-block;
   vertical-align: middle;
   width: 30px;
@@ -183,11 +183,11 @@
   text-align: center;
   line-height: 30px;
 }
-.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-msg span {
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-btn span {
   cursor: pointer;
   font-size: 14px;
 }
-.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-msg span:hover {
+.contacts .contacts-container .contacts-search .contacts-search-container ul .box-list-item .item-btn span:hover {
   font-weight: 600;
   font-size: 16px;
 }

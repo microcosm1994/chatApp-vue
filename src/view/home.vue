@@ -42,13 +42,16 @@
               <span :index="2" class="el-icon-user"></span>
             </li>
             <li :class="{'aside-item': true, 'aside-item_active': menuActive === 3}" @click="handleMenu">
-              <span :index="3" class="el-icon-collection-tag "></span>
+              <span :index="3" class="el-icon-bell "></span>
             </li>
             <li :class="{'aside-item': true, 'aside-item_active': menuActive === 4}" @click="handleMenu">
-              <span :index="4" class="el-icon-folder"></span>
+              <span :index="4" class="el-icon-collection-tag "></span>
             </li>
             <li :class="{'aside-item': true, 'aside-item_active': menuActive === 5}" @click="handleMenu">
-              <span :index="5" class="el-icon-menu"></span>
+              <span :index="5" class="el-icon-folder"></span>
+            </li>
+            <li :class="{'aside-item': true, 'aside-item_active': menuActive === 6}" @click="handleMenu">
+              <span :index="6" class="el-icon-menu"></span>
             </li>
           </ul>
           <div class="aside-bottom">
@@ -75,6 +78,7 @@
 <script>
 import contactts from '../components/aside/contacts'
 import history from '../components/aside/history'
+import message from '../components/aside/message'
 export default {
   name: 'home',
   data () {
@@ -89,7 +93,8 @@ export default {
   },
   components: {
     contactts,
-    history
+    history,
+    message
   },
   computed: {
     user: function () {
@@ -124,6 +129,9 @@ export default {
           break
         case 2:
           this.asideComments = 'contactts'
+          break
+        case 3:
+          this.asideComments = 'message'
           break
         default:
           break

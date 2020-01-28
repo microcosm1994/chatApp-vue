@@ -11,6 +11,26 @@
     <div class="contacts-container">
       <div class="contacts-container-box">
         <div class="box-header">
+          好友请求
+        </div>
+        <div class="box-list">
+          <ul>
+            <li class="box-list-item">
+              <div class="item-avator">
+                <el-avatar shape="square" :size="30" ></el-avatar>
+              </div>
+              <div class="item-name">
+                ssssssssssssssssssssssss
+              </div>
+              <div class="item-btn">
+                <span class="el-icon-chat-dot-round"></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="contacts-container-box">
+        <div class="box-header">
           好友列表
         </div>
         <div class="box-list">
@@ -22,7 +42,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -42,7 +62,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -53,7 +73,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -64,7 +84,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -75,7 +95,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -86,7 +106,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -97,7 +117,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -108,7 +128,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -119,7 +139,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -130,7 +150,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -141,7 +161,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -152,7 +172,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -163,7 +183,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -174,7 +194,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -185,7 +205,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -196,7 +216,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -207,7 +227,7 @@
               <div class="item-name">
                 ssssssssssssssssssssssss
               </div>
-              <div class="item-msg">
+              <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
@@ -237,8 +257,8 @@
               <div class="item-name">
                 {{item.nickName}}
               </div>
-              <div class="item-msg">
-                <span class="el-icon-plus"></span>
+              <div class="item-btn" v-if="item.phone !== user.phone">
+                <span class="el-icon-plus" @click="addFriendsAsk(item)"></span>
               </div>
             </li>
           </ul>
@@ -258,7 +278,13 @@ export default {
       searchList: []
     }
   },
+  computed: {
+    user: function () {
+      return this.$store.state.user
+    }
+  },
   methods: {
+    // 搜索用户
     searchUser () {
       this.searchList = []
       if (!this.searchVal || !this.$utils.regexp.isPhone(this.searchVal)) {
@@ -273,6 +299,32 @@ export default {
           this.searchList = res.data
           this.$message.success(res.msg)
         }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 发送好友请求
+    addFriendsAsk (row) {
+      console.log(row)
+      console.log(this.user)
+      let data = {
+        sourceMark: '',
+        sourceName: this.user.nickName,
+        sourceUid: this.user.id,
+        targetMark: '',
+        targetName: row.nickName,
+        targetUid: row.id
+      }
+      this.$api.friends.addFriendsAsk(data).then((res) => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 获取好友列表
+    getFriendsList () {
+      this.$api.friends.getFriendsList().then((res) => {
+        console.log(res)
       }).catch(err => {
         console.log(err)
       })
