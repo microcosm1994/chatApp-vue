@@ -1,6 +1,6 @@
 import axios from '../axios'
 
-// 登陆方法
+// 搜索用户
 export const searchUser = (data) => {
   return axios({
     url: '/user/searchUser',

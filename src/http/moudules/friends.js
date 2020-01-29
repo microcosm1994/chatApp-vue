@@ -1,5 +1,5 @@
 import axios from '../axios'
-
+/* 好友请求 */
 // 添加好友请求
 export const addFriendsAsk = (data) => {
   return axios({
@@ -18,6 +18,16 @@ export const getFriendsAskList = (data) => {
   })
 }
 
+// 修改好友请求
+export const putFriendsAsk = (data) => {
+  return axios({
+    url: '/friends/putFriendsAsk',
+    method: 'post',
+    data
+  })
+}
+
+/* 好友关系 */
 // 添加好友
 export const addFriends = (data) => {
   return axios({
@@ -31,6 +41,15 @@ export const addFriends = (data) => {
 export const getFriendsList = (data) => {
   return axios({
     url: '/friends/getFriendsList',
+    method: 'post',
+    data
+  })
+}
+
+// 修改好友信息
+export const putFriends = (data) => {
+  return axios({
+    url: '/friends/putFriends',
     method: 'post',
     data
   })

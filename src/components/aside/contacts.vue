@@ -10,216 +10,51 @@
     </div>
     <div class="contacts-container">
       <div class="contacts-container-box">
-        <div class="box-header">
-          好友请求
-        </div>
-        <div class="box-list">
-          <ul>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="contacts-container-box">
-        <div class="box-header">
+        <div class="box-header" @click="handleLabelClick('friends')">
           好友列表
         </div>
-        <div class="box-list">
-          <ul>
-            <li class="box-list-item">
+        <div class="box-list" v-show="friendsListShow">
+          <ul v-if="friendsList.length">
+            <li class="box-list-item" v-for="(item, index) in friendsList" :key="index">
               <div class="item-avator">
                 <el-avatar shape="square" :size="30" ></el-avatar>
               </div>
               <div class="item-name">
-                ssssssssssssssssssssssss
+                <el-popover
+                  placement="top"
+                  width="210"
+                  trigger="click"
+                  v-model="visible">
+                  <div class="item-name-input" style="display: inline-block;vertical-align: middle; width: 140px;">
+                    <el-input
+                      placeholder="修改备注名"
+                      v-model="popoverValue"
+                      size="mini"
+                      :maxlength="10"
+                      clearable>
+                    </el-input>
+                  </div>
+                  <div class="item-name-btn" style="display: inline-block;vertical-align: middle;width: 30px;">
+                    <el-button icon="el-icon-check" size="mini" type="success" @click="putFriendsList(item)" ></el-button>
+                  </div>
+                  <p style="line-height: 24px;font-size: 14px;color:#333;cursor: pointer;" slot="reference">{{item.sourceUid === user.id ? item.targetMark : item.sourceMark}}</p>
+                </el-popover>
+                <p>{{item.sourceUid === user.id ? item.targetName : item.sourceName}}</p>
               </div>
               <div class="item-btn">
                 <span class="el-icon-chat-dot-round"></span>
               </div>
             </li>
           </ul>
+          <div class="box-list-null" v-else>您还没有好友</div>
         </div>
       </div>
       <div class="contacts-container-box">
-        <div class="box-header">
+        <div class="box-header" @click="handleLabelClick('grounp')">
           我的群组
         </div>
-        <div class="box-list">
+        <div class="box-list" v-show="grounpListShow">
           <ul>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
             <li class="box-list-item">
               <div class="item-avator">
                 <el-avatar shape="square" :size="30" ></el-avatar>
@@ -248,8 +83,8 @@
             <el-button size="mini" icon="el-icon-search" @click="searchUser"></el-button>
           </div>
         </div>
-        <div class="contacts-search-container">
-          <ul>
+        <div class="contacts-search-container" v-if="searchContainerShow">
+          <ul v-if="searchList.length">
             <li class="box-list-item" v-for="(item, index) in searchList" :key="index">
               <div class="item-avator">
                 <el-avatar shape="square" :size="30" ></el-avatar>
@@ -262,6 +97,7 @@
               </div>
             </li>
           </ul>
+          <div class="contacts-search-null" v-else>没有这个用户</div>
         </div>
       </div>
     </div>
@@ -274,8 +110,14 @@ export default {
   props: ['closeCallback'],
   data () {
     return {
+      visible: false,
+      popoverValue: '',
       searchVal: '',
-      searchList: []
+      searchContainerShow: false,
+      searchList: [],
+      friendsList: [],
+      friendsListShow: false,
+      grounpListShow: false
     }
   },
   computed: {
@@ -283,19 +125,23 @@ export default {
       return this.$store.state.user
     }
   },
+  mounted () {
+    this.getFriendsList()
+  },
   methods: {
     // 搜索用户
     searchUser () {
       this.searchList = []
       if (!this.searchVal || !this.$utils.regexp.isPhone(this.searchVal)) {
+        this.searchContainerShow = false
         return false
       }
       let data = {
         phone: this.searchVal
       }
       this.$api.user.searchUser(data).then(res => {
-        console.log(res)
         if (res.status) {
+          this.searchContainerShow = true
           this.searchList = res.data
           this.$message.success(res.msg)
         }
@@ -305,8 +151,6 @@ export default {
     },
     // 发送好友请求
     addFriendsAsk (row) {
-      console.log(row)
-      console.log(this.user)
       let data = {
         sourceMark: '',
         sourceName: this.user.nickName,
@@ -323,15 +167,57 @@ export default {
     },
     // 获取好友列表
     getFriendsList () {
-      this.$api.friends.getFriendsList().then((res) => {
-        console.log(res)
+      let data = {
+        id: this.user.id
+      }
+      this.friendsList = []
+      this.$api.friends.getFriendsList(data).then((res) => {
+        if (res.status) {
+          this.friendsList = res.data
+        }
       }).catch(err => {
         console.log(err)
       })
     },
-    handleNodeClick (data) {
-      console.log(data)
+    // 修改好友信息
+    putFriendsList (row) {
+      if (!this.popoverValue) {
+        return false
+      }
+      let data = {
+        id: row.id
+      }
+      if (this.user.id === row.sourceUid) {
+        data.targetMark = this.popoverValue
+        data.sourceMark = row.sourceMark
+      } else {
+        data.sourceMark = this.popoverValue
+        data.targetMark = row.targetMark
+      }
+      this.$api.friends.putFriends(data).then((res) => {
+        if (res.status) {
+          this.popoverValue = ''
+          this.visible = false
+          this.getFriendsList()
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
+    // 显示隐藏列表
+    handleLabelClick (labelName) {
+      switch (labelName) {
+        case 'friends':
+          this.friendsListShow = !this.friendsListShow
+          break
+        case 'grounp':
+          this.grounpListShow = !this.grounpListShow
+          break
+        default:
+          break
+      }
+    },
+    // 关闭侧边栏
     close () {
       this.closeCallback()
     }

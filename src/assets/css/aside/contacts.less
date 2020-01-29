@@ -51,41 +51,45 @@
         line-height: 30px;
         color: #fff;
         cursor: pointer;
+        border-bottom: 1px solid #F2F1F6;
       }
       .box-list {
         background: #ffffff;
         ul {
           .box-list-item {
             width: 100%;
-            height: 40px;
             display: block;
             padding-left: 10px;
             border-bottom: 1px solid #e2e2e2;
             .item-avator {
               display: inline-block;
-              vertical-align: middle;
+              vertical-align: top;
               width: 30px;
               margin-top: 5px;
             }
             .item-name {
               display: inline-block;
-              vertical-align: middle;
+              vertical-align: top;
               width: 110px;
-              height: 40px;
-              line-height: 40px;
+              height: 50px;
               padding-left: 5px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              font-size: 14px;
+              p{
+                display: block;
+                width: auto;
+                font-size: 12px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color:#999;
+              }
             }
             .item-btn{
               display: inline-block;
               vertical-align: middle;
               width: 30px;
-              height: 30px;
+              height: 40px;
               text-align: center;
-              line-height: 30px;
+              line-height: 40px;
               span{
                 cursor: pointer;
                 font-size: 14px;
@@ -96,6 +100,14 @@
               }
             }
           }
+        }
+        .box-list-null{
+          width: 100%;
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          font-size: 12px;
+          color: #666;
         }
       }
     }
@@ -188,6 +200,15 @@
               }
             }
           }
+        }
+        .contacts-search-null{
+          width: 100%;
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          font-size: 12px;
+          color: #666;
+          background: #ffffff;
         }
       }
     }

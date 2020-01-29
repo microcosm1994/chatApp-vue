@@ -10,25 +10,38 @@
     </div>
     <div class="contacts-container">
       <div class="contacts-container-box">
-        <div class="box-header">
+        <div class="box-header" @click="handleLabelClick('friendsAsk')">
           好友请求
         </div>
-        <div class="box-list">
-          <ul>
+        <div class="box-list" v-show="friendsAskListShow">
+          <ul v-if="friendsAskList.length">
             <li class="box-list-item" v-for="(item, index) in friendsAskList" :key="index">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
+              <div class="item-left">
+                <div class="item-avator">
+                  <el-avatar shape="square" :size="40" ></el-avatar>
+                </div>
               </div>
-              <div class="item-name">
-                {{item.sourceUid === user.id ? item.targetName : item.sourceName}}
-              </div>
-              <div class="item-btn">
-                <span class="item-btn-ok">同意</span>
-                <span class="item-btn-danger">拒绝</span>
-                <span class="item-btn-ignore">忽略</span>
+              <div class="item-right">
+                <div class="item-name">
+                  {{item.sourceUid === user.id ? item.targetName : item.sourceName}}
+                </div>
+                <div class="item-time">
+                  {{item.createTime | timeFormat}}
+                </div>
+                <div class="item-btn" v-if="item.isAgree === 0">
+                  <span class="item-btn-ok" @click="putFriendsAsk(item, 1)">同意</span>
+                  <span class="item-btn-danger" @click="putFriendsAsk(item, 2)">拒绝</span>
+                  <span class="item-btn-ignore" @click="delFriendsAsk(item)">忽略</span>
+                </div>
+                <div class="item-status" v-if="item.isAgree !== 0">
+                  <span :style="{color: item.isAgree === 1 ? '#67c23a' : '#f56c6c'}">
+                    {{item.isAgree | isAgree}}
+                  </span>
+                </div>
               </div>
             </li>
           </ul>
+          <div class="box-list-null" v-else>您还没有好友请求</div>
         </div>
       </div>
     </div>
@@ -42,7 +55,8 @@ export default {
   data () {
     return {
       searchVal: '',
-      friendsAskList: []
+      friendsAskList: [],
+      friendsAskListShow: false
     }
   },
   computed: {
@@ -54,20 +68,55 @@ export default {
     this.getFriendsAskList()
   },
   methods: {
-    // 处理好友请求
-    addFriendsAsk (row) {
-      console.log(row)
-      console.log(this.user)
+    // 添加好友
+    addFriends (row) {
       let data = {
-        sourceMark: '',
-        sourceName: this.user.nickName,
-        sourceUid: this.user.id,
-        targetMark: '',
-        targetName: row.nickName,
-        targetUid: row.id
+        sourceName: row.sourceName,
+        sourceUid: row.sourceUid,
+        targetName: row.targetName,
+        targetUid: row.targetUid
       }
-      this.$api.friends.addFriendsAsk(data).then((res) => {
+      this.$api.friends.addFriends(data).then((res) => {
         console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 修改好友请求,同意好友请求
+    putFriendsAsk (row, handler) {
+      let data = {
+        id: row.id,
+        sourceMark: '',
+        sourceName: row.sourceName,
+        sourceUid: row.sourceUid,
+        targetMark: '',
+        targetName: row.targetName,
+        targetUid: row.targetUid,
+        isAgree: handler
+      }
+      // 添加好友
+      if (handler === 1) {
+        this.addFriends(row)
+      }
+      // 修改好友请求
+      this.$api.friends.putFriendsAsk(data).then((res) => {
+        if (res.status) {
+          this.getFriendsAskList()
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 删除好友请求
+    delFriendsAsk (row) {
+      let data = {
+        id: row.id,
+        del: 1
+      }
+      this.$api.friends.putFriendsAsk(data).then((res) => {
+        if (res.status) {
+          this.getFriendsAskList()
+        }
       }).catch(err => {
         console.log(err)
       })
@@ -75,7 +124,8 @@ export default {
     // 获取好友请求列表
     getFriendsAskList () {
       let data = {
-        del: 0
+        del: 0,
+        targetUid: this.user.id
       }
       this.friendsAskList = []
       this.$api.friends.getFriendsAskList(data).then((res) => {
@@ -86,8 +136,14 @@ export default {
         console.log(err)
       })
     },
-    handleNodeClick (data) {
-      console.log(data)
+    handleLabelClick (labelName) {
+      switch (labelName) {
+        case 'friendsAsk':
+          this.friendsAskListShow = !this.friendsAskListShow
+          break
+        default:
+          break
+      }
     },
     close () {
       this.closeCallback()

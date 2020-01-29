@@ -77,6 +77,8 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
+
 export default {
   name: 'index',
   data () {
@@ -99,6 +101,10 @@ export default {
     }, 1000)
   },
   methods: {
+    // 连接socket
+    createdSocket () {
+      let Socket = io('http://localhost')
+    },
     formatTime () {
       let date = new Date()
       let h = date.getHours() > 9 ? date.getHours() : '0' + date.getHours()
