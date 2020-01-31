@@ -79,6 +79,7 @@
 <script>
 import io from 'socket.io-client'
 
+const Socket = io('/socket.io/')
 export default {
   name: 'index',
   data () {
@@ -95,6 +96,7 @@ export default {
     }
   },
   mounted () {
+    this.createdSocket()
     this.greetings()
     this.timer = setInterval(() => {
       this.formatTime()
@@ -103,7 +105,12 @@ export default {
   methods: {
     // 连接socket
     createdSocket () {
-      let Socket = io('http://localhost')
+      Socket.on('reply', (res) => {
+        console.log(res)
+      })
+      Socket.emit('notice', JSON.stringify({a: 1}), function (data) {
+        console.log('ACK from server wtih data: ', data)
+      })
     },
     formatTime () {
       let date = new Date()

@@ -18,6 +18,14 @@ module.exports = {
         pathRewrite: {
           '^/api': ' '
         }
+      },
+      '/socket.io/': {
+        target: 'http://localhost:8000/socket.io/',
+        changeOrigin: true,
+        emulateJSON: true,
+        pathRewrite: {
+          '^/socket.io/': ' '
+        }
       }
     },
 
