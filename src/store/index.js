@@ -10,11 +10,15 @@ const vuexLocal = new VuexPersistence({
 
 export default new vuex.Store({
   state: {
-    user: null
+    user: null,
+    target: null
   },
   mutations: {
     setUser (state, data) {
       state.user = data
+    },
+    setTarget (state, data) {
+      state.target = data
     }
   },
   plugins: [vuexLocal.plugin]

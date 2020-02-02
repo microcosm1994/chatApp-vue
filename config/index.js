@@ -20,7 +20,8 @@ module.exports = {
         }
       },
       '/socket.io/': {
-        target: 'http://localhost:8000/socket.io/',
+        ws: false,
+        target: 'http://localhost:9090/',
         changeOrigin: true,
         emulateJSON: true,
         pathRewrite: {

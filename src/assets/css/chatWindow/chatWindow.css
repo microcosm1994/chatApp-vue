@@ -1,0 +1,68 @@
+.chatWindow {
+  width: 700px;
+  height: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background: #ffffff;
+  border: 1px solid #F2F1F6;
+  overflow: hidden;
+  z-index: 99999;
+}
+.chatWindow .chatWindow-header {
+  width: 100%;
+  height: 50px;
+  background: #421C50;
+  color: #fff;
+  line-height: 50px;
+  padding-left: 20px;
+  position: relative;
+}
+.chatWindow .chatWindow-header .chatWindow-header-tool {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+}
+.chatWindow .chatWindow-header .chatWindow-header-tool:hover {
+  font-size: 16px;
+}
+.chatWindow .chatWindow-container {
+  width: 100%;
+  height: 450px;
+  position: relative;
+  padding-bottom: 130px;
+}
+.chatWindow .chatWindow-container .chatWindow-container-chat {
+  width: 100%;
+  height: 280px;
+  background: #fff;
+  overflow: auto;
+}
+.chatWindow .chatWindow-container .chatWindow-container-tool {
+  width: 100%;
+  height: 40px;
+  background: #F2F1F6;
+}
+.chatWindow .chatWindow-container .chatWindow-container-reply {
+  width: 100%;
+  height: 130px;
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.chatWindow .chatWindow-container .chatWindow-container-reply .reply-input {
+  width: 100%;
+  height: 98%;
+  font-size: 14px;
+  overflow: auto;
+}
+/*# sourceMappingURL=chatWindow.css.map */

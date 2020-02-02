@@ -42,7 +42,7 @@
                 <p>{{item.sourceUid === user.id ? item.targetName : item.sourceName}}</p>
               </div>
               <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
+                <span class="el-icon-chat-dot-round" @click="openWindow(item)"></span>
               </div>
             </li>
           </ul>
@@ -107,7 +107,7 @@
 <script>
 export default {
   name: 'contacts',
-  props: ['closeCallback'],
+  props: ['closeCallback', 'openChatWindow'],
   data () {
     return {
       visible: false,
@@ -123,6 +123,10 @@ export default {
   computed: {
     user: function () {
       return this.$store.state.user
+    },
+    socket: function () {
+      console.log(this.$socket)
+      return this.$socket
     }
   },
   mounted () {
@@ -220,6 +224,14 @@ export default {
     // 关闭侧边栏
     close () {
       this.closeCallback()
+    },
+    // 打开聊天窗口
+    openWindow (row) {
+      this.openChatWindow()
+      this.$store.commit('setTarget', row)
+      // 房间名
+      let roomName = this.user.id + ':' + (row.sourceUid === this.user.id ? row.targetUid : row.sourceUid)
+      this.$socket.emit('JoinRoom', roomName)
     }
   }
 }

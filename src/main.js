@@ -6,15 +6,23 @@ import http from './http'
 import utils from './utils'
 import store from './store'
 import filters from './filer'
+import VueSocketIO from 'vue-socket.io'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/publick.css'
 
 Vue.use(element)
 Vue.use(http)
+Vue.use(new VueSocketIO({
+  // 服务器端地址
+  connection: '/socket.io/',
+  vuex: {
+    store
+  }
+}))
+
 Vue.config.productionTip = false
 Vue.prototype.$utils = utils
 Vue.prototype.$store = store
-Vue.prototype.$socket = null
 
 // 注册全局过滤器
 Object.keys(filters).forEach((fnc) => {
@@ -25,6 +33,6 @@ Object.keys(filters).forEach((fnc) => {
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })

@@ -63,7 +63,7 @@
         <div :class="{'home-main': true, ' home-main-show': menuActive}">
           <div class="home-main-asid" v-if="menuActive">
             <keep-alive>
-              <component v-bind:is="asideComments" :closeCallback="closeAside"></component>
+              <component v-bind:is="asideComments" :closeCallback="closeAside" :openChatWindow="openChatWindow"></component>
             </keep-alive>
           </div>
           <div class="home-main-view">
@@ -72,6 +72,7 @@
         </div>
       </el-main>
     </el-container>
+    <chatWindow v-if="chatWindowShow" :closeCallback="closeChatWindow"></chatWindow>
   </div>
 </template>
 
@@ -79,10 +80,12 @@
 import contactts from '../components/aside/contacts'
 import history from '../components/aside/history'
 import message from '../components/aside/message'
+import chatWindow from '../components/chatWindow/chatWindow'
 export default {
   name: 'home',
   data () {
     return {
+      chatWindowShow: false,
       isShow: true,
       menuActive: 0,
       phone: '',
@@ -94,7 +97,8 @@ export default {
   components: {
     contactts,
     history,
-    message
+    message,
+    chatWindow
   },
   computed: {
     user: function () {
@@ -137,8 +141,17 @@ export default {
           break
       }
     },
+    // 关闭侧边栏
     closeAside () {
       this.menuActive = 0
+    },
+    // 打开聊天窗口
+    openChatWindow () {
+      this.chatWindowShow = true
+    },
+    // 关闭聊天窗口
+    closeChatWindow () {
+      this.chatWindowShow = false
     }
   }
 }

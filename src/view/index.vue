@@ -77,9 +77,6 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
-
-const Socket = io('/socket.io/')
 export default {
   name: 'index',
   data () {
@@ -96,21 +93,24 @@ export default {
     }
   },
   mounted () {
-    this.createdSocket()
+    this.testSocket()
     this.greetings()
     this.timer = setInterval(() => {
       this.formatTime()
     }, 1000)
   },
+  sockets: {
+    connect: function () {
+      console.log('socket connected')
+    },
+    ConnStatus: function (data) {
+      console.log(data)
+    }
+  },
   methods: {
-    // 连接socket
-    createdSocket () {
-      Socket.on('reply', (res) => {
-        console.log(res)
-      })
-      Socket.emit('notice', JSON.stringify({a: 1}), function (data) {
-        console.log('ACK from server wtih data: ', data)
-      })
+    // 测试socket是否连接
+    testSocket () {
+      this.$socket.emit('ConnStatus', this.user)
     },
     formatTime () {
       let date = new Date()
