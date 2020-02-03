@@ -123,10 +123,6 @@ export default {
   computed: {
     user: function () {
       return this.$store.state.user
-    },
-    socket: function () {
-      console.log(this.$socket)
-      return this.$socket
     }
   },
   mounted () {
@@ -229,9 +225,15 @@ export default {
     openWindow (row) {
       this.openChatWindow()
       this.$store.commit('setTarget', row)
-      // 房间名
-      let roomName = this.user.id + ':' + (row.sourceUid === this.user.id ? row.targetUid : row.sourceUid)
-      this.$socket.emit('JoinRoom', roomName)
+      // // 房间名
+      // let targetUid = row.sourceUid === this.user.id ? row.targetUid : row.sourceUid
+      // let roomName = this.user.id + ':' + targetUid
+      // let data = {
+      //   room: roomName,
+      //   targetUid: targetUid,
+      //   sourceUid: this.user.id
+      // }
+      // this.$socket.emit('JoinRoom', data)
     }
   }
 }

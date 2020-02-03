@@ -103,6 +103,9 @@ export default {
     connect: function () {
       console.log('socket connected')
     },
+    disconnect: function (res) {
+      console.log('disconnect', res)
+    },
     ConnStatus: function (data) {
       console.log(data)
     }
