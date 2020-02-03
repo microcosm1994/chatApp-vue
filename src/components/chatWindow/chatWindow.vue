@@ -7,61 +7,14 @@
       </div>
     </div>
     <div class="chatWindow-container">
-      <div class="chatWindow-container-chat">
+      <div class="chatWindow-container-chat" ref="chatWindow-container-chat">
         <ul>
-          <li class="chat-msg">
-            <div class="chat-msg-left">
+          <li class="chat-msg" v-for="(item, index) in msgData" :key="index" v-if="msgData.length">
+            <div :class="[user.id === item.sourceUid ? 'chat-msg-right': 'chat-msg-left']">
               <div class="chat-msg-avator">
                 <el-avatar shape="square" :size="30"></el-avatar>
               </div>
-              <div class="chat-msg-content">
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-              </div>
-            </div>
-          </li>
-          <li class="chat-msg">
-            <div class="chat-msg-left">
-              <div class="chat-msg-avator">
-                <el-avatar shape="square" :size="30"></el-avatar>
-              </div>
-              <div class="chat-msg-content">
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-              </div>
-            </div>
-          </li>
-          <li class="chat-msg">
-            <div class="chat-msg-right">
-              <div class="chat-msg-avator">
-                <el-avatar shape="square" :size="30"></el-avatar>
-              </div>
-              <div class="chat-msg-content">
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-              </div>
-            </div>
-          </li>
-          <li class="chat-msg">
-            <div class="chat-msg-right">
-              <div class="chat-msg-avator">
-                <el-avatar shape="square" :size="30"></el-avatar>
-              </div>
-              <div class="chat-msg-content">
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-              </div>
-            </div>
-          </li>
-          <li class="chat-msg">
-            <div class="chat-msg-left">
-              <div class="chat-msg-avator">
-                <el-avatar shape="square" :size="30"></el-avatar>
-              </div>
-              <div class="chat-msg-content">
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-                图片类头像加载失败的回调， 返回 false 会关闭组件默认的 fallback 行为
-              </div>
+              <div class="chat-msg-content" v-html="item.content"></div>
             </div>
           </li>
         </ul>
@@ -89,7 +42,8 @@ export default {
   data () {
     return {
       flag: true,
-      range: null
+      range: null,
+      msgData: []
     }
   },
   computed: {
@@ -100,7 +54,15 @@ export default {
       return this.$store.state.target
     }
   },
+  sockets: {
+    RoomMsg: function (data) {
+      data.content = decodeURI(data.content)
+      this.msgData.push(data)
+      console.log(this.msgData)
+    }
+  },
   mounted () {
+    this.setScroll()
   },
   methods: {
     // 发送消息
@@ -110,7 +72,14 @@ export default {
         return false
       }
       this.$refs['reply-input'].innerHTML = ''
-      console.log(msg)
+      let data = {
+        targetUid: this.target.id,
+        sourceUid: this.user.id,
+        content: encodeURI(msg)
+      }
+      console.log(data)
+      this.$socket.emit('SendMessage', data)
+      this.setScroll()
     },
     // 聊天窗口拖拽
     dropChatWindow (e) {
@@ -169,6 +138,12 @@ export default {
       let selection = window.getSelection()
       let range = selection.getRangeAt(0)
       this.range = range
+    },
+    // 让滚动条一直保持在底部
+    setScroll () {
+      let scrollHeight = this.$refs['chatWindow'].scrollHeight
+      // 聊天界面滚动条一直保持在底部
+      this.$refs['chatWindow-container-chat'].scrollTop = scrollHeight
     }
   }
 }
