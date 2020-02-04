@@ -14,7 +14,7 @@
               <div class="chat-msg-avator">
                 <el-avatar shape="square" :size="30"></el-avatar>
               </div>
-              <div class="chat-msg-content" v-html="item.content"></div>
+              <div class="chat-msg-content" v-html="decodeMsg(item.content)"></div>
             </div>
           </li>
         </ul>
@@ -52,19 +52,39 @@ export default {
     },
     target: function () {
       return this.$store.state.target
+    },
+    friendsId: function () {
+      return this.$store.state.friendsId
     }
   },
   sockets: {
     RoomMsg: function (data) {
-      data.content = decodeURI(data.content)
       this.msgData.push(data)
-      console.log(this.msgData)
     }
   },
   mounted () {
+    this.getMsgList()
     this.setScroll()
   },
   methods: {
+    // 消息内容解码
+    decodeMsg (val) {
+      return decodeURI(val)
+    },
+    // 获取消息列表
+    getMsgList () {
+      let data = {
+        friendsId: this.friendsId
+      }
+      this.msgData = []
+      this.$api.msg.getMsgList(data).then((res) => {
+        if (res.status) {
+          this.msgData = res.data
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     // 发送消息
     sendMessage () {
       let msg = this.$refs['reply-input'].innerHTML
@@ -73,6 +93,7 @@ export default {
       }
       this.$refs['reply-input'].innerHTML = ''
       let data = {
+        friendsId: this.friendsId,
         targetUid: this.target.id,
         sourceUid: this.user.id,
         content: encodeURI(msg)

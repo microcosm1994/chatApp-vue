@@ -57,6 +57,7 @@
   padding-left: 50px;
   position: relative;
   margin-top: 20px;
+  overflow: hidden;
 }
 .chatWindow .chatWindow-container .chatWindow-container-chat ul .chat-msg .chat-msg-left .chat-msg-avator {
   position: absolute;
@@ -73,12 +74,14 @@
   word-break: break-all;
   padding: 5px 15px;
   border-radius: 4px;
+  float: left;
 }
 .chatWindow .chatWindow-container .chatWindow-container-chat ul .chat-msg .chat-msg-right {
   width: 100%;
   padding-right: 50px;
   position: relative;
   margin-top: 20px;
+  overflow: hidden;
 }
 .chatWindow .chatWindow-container .chatWindow-container-chat ul .chat-msg .chat-msg-right .chat-msg-avator {
   position: absolute;

@@ -11,7 +11,8 @@ const vuexLocal = new VuexPersistence({
 export default new vuex.Store({
   state: {
     user: null,
-    target: null
+    target: null,
+    friendsId: null
   },
   mutations: {
     setUser (state, data) {
@@ -19,6 +20,9 @@ export default new vuex.Store({
     },
     setTarget (state, data) {
       state.target = data
+    },
+    setFriendsId (state, data) {
+      state.friendsId = data
     }
   },
   plugins: [vuexLocal.plugin]

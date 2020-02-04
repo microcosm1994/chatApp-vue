@@ -230,15 +230,14 @@ export default {
       }
       this.openChatWindow()
       this.$store.commit('setTarget', targetData)
-      // // 房间名
       let targetUid = row.sourceUid === this.user.id ? row.targetUid : row.sourceUid
-      let roomName = this.user.id + ':' + targetUid
       let data = {
-        room: roomName,
+        friendsId: row.id,
         targetUid: targetUid,
         sourceUid: this.user.id
       }
       this.$socket.emit('JoinRoom', data)
+      this.$store.commit('setFriendsId', row.id)
     }
   }
 }
