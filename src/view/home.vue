@@ -177,6 +177,7 @@ export default {
     // 关闭群组聊天窗口
     closeGroupChatWindow () {
       this.groupChatWindow = false
+      this.closeAside()
     }
   }
 }

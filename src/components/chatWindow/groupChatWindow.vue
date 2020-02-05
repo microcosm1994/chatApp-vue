@@ -3,7 +3,62 @@
     <div class="chatWindow-header" @mousedown="dropChatWindow" @mouseup="stop" @mouseleave="stop">
       {{group.groupName}}
       <div class="chatWindow-header-tool">
-        <span class="el-icon-s-unfold"></span>
+        <el-popover
+          placement="bottom-start"
+          width="200"
+          trigger="click">
+          <div class="tool-Box">
+            <div class="tool-box-header">
+              <el-input
+                placeholder="请输入内容"
+                prefix-icon="el-icon-search"
+                size="mini"
+                v-model="searchMemberVal">
+              </el-input>
+            </div>
+            <div class="tool-box-container">
+              <div class="container-members">
+                <ul>
+                  <li class="container-members-item" v-for="(item, index) in groupUserList" :key="index">
+                    <el-badge
+                      value="主"
+                      class="item"
+                      :hidden="item.user.id !== group.groupMpId"
+                      type="primary">
+                      <el-avatar shape="square" :size="30"></el-avatar>
+                    </el-badge>
+                    <el-tooltip class="item" effect="dark" :content="item.user.nickName" placement="top">
+                      <p>{{item.user.nickName}}</p>
+                    </el-tooltip>
+                  </li>
+                </ul>
+              </div>
+              <div class="container-des">
+                <ul>
+                  <li class="container-des-item">
+                    <p class="item-label">群名称</p>
+                    <p class="item-content">{{group.groupName}}</p>
+                  </li>
+                  <li class="container-des-item">
+                    <p class="item-label">群说明</p>
+                    <p class="item-content">{{group.groupDes}}</p>
+                  </li>
+                </ul>
+              </div>
+              <div class="container-tool">
+                <ul>
+                  <li class="container-tool-item">
+                    <el-button v-if="group.groupMpId === user.id" size="mini" type="danger">解散群聊</el-button>
+                    <el-button v-else size="mini" type="danger" @click="delGroupUser">退出群聊</el-button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="tool-box-searchBox">
+            </div>
+          </div>
+          <span slot="reference" class="el-icon-s-tools" @click="getGroupUserList"></span>
+        </el-popover>
         <span class="el-icon-close" @click="close"></span>
       </div>
     </div>
@@ -44,7 +99,9 @@ export default {
     return {
       flag: true,
       range: null,
-      msgData: []
+      msgData: [],
+      groupUserList: [],
+      searchMemberVal: ''
     }
   },
   computed: {
@@ -53,6 +110,9 @@ export default {
     },
     group: function () {
       return this.$store.state.group
+    },
+    groupMemberId: function () {
+      return this.$store.state.groupMemberId
     }
   },
   sockets: {
@@ -78,6 +138,39 @@ export default {
       this.$api.groupMsg.getGroupMsgList(data).then((res) => {
         if (res.status) {
           this.msgData = res.data
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 获取群成员列表
+    getGroupUserList () {
+      let data = {
+        Id: this.group.id
+      }
+      this.groupUserList = []
+      this.$api.group.getGroupUserList(data).then((res) => {
+        if (res.status) {
+          this.groupUserList = res.groupList
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 退出群组
+    delGroupUser () {
+      let data = {
+        id: this.groupMemberId,
+        user: {
+          id: this.user.id
+        },
+        group: {
+          id: this.group.id
+        }
+      }
+      this.$api.group.delGroupUser(data).then((res) => {
+        if (res.status) {
+          this.closeCallback()
         }
       }).catch(err => {
         console.log(err)

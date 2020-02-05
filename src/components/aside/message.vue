@@ -212,7 +212,9 @@ export default {
     // 添加群成员
     addGroupMember (row) {
       let data = {
-        userId: row.user.id,
+        user: {
+          id: row.user.id
+        },
         group: {
           id: row.group.id
         }

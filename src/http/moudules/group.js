@@ -27,6 +27,24 @@ export const getGroupList = (data) => {
   })
 }
 
+// 获取群成员
+export const getGroupUserList = (data) => {
+  return axios({
+    url: '/group/getGroupUserList',
+    method: 'post',
+    data
+  })
+}
+
+// 移除群成员
+export const delGroupUser = (data) => {
+  return axios({
+    url: '/group/delGroupUser',
+    method: 'post',
+    data
+  })
+}
+
 // 按群名称搜索群
 export const searchGroup = (data) => {
   return axios({

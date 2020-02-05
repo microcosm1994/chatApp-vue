@@ -181,7 +181,9 @@ export default {
     // 获取群组列表
     getGroupList () {
       let data = {
-        userId: this.user.id
+        user: {
+          id: this.user.id
+        }
       }
       this.groupList = []
       this.$api.group.getGroupList(data).then((res) => {
@@ -199,6 +201,7 @@ export default {
     // 打开群聊天窗口
     openWindow (row) {
       let groupData = row.group
+      this.$store.commit('setGroupMemberId', row.id)
       this.$store.commit('setGroup', groupData)
       let data = {
         groupId: groupData.id,

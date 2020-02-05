@@ -13,6 +13,7 @@ export default new vuex.Store({
     user: null,
     target: null,
     group: null,
+    groupMemberId: null,
     friendsId: null
   },
   mutations: {
@@ -24,6 +25,9 @@ export default new vuex.Store({
     },
     setGroup (state, data) {
       state.group = data
+    },
+    setGroupMemberId (state, data) {
+      state.groupMemberId = data
     },
     setFriendsId (state, data) {
       state.friendsId = data
