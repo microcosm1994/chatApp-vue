@@ -23,15 +23,20 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 50px;
   height: 50px;
   text-align: center;
+}
+.chatWindow .chatWindow-header .chatWindow-header-tool span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 50px;
   line-height: 50px;
   font-size: 14px;
   color: #fff;
   cursor: pointer;
 }
-.chatWindow .chatWindow-header .chatWindow-header-tool:hover {
+.chatWindow .chatWindow-header .chatWindow-header-tool span:hover {
   font-size: 16px;
 }
 .chatWindow .chatWindow-container {

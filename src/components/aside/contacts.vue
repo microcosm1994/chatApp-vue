@@ -2,7 +2,7 @@
   <div class="contacts">
     <div class="contacts-header">
       <div class="contacts-header-title">
-        联系人
+        好友
       </div>
       <div class="contacts-header-close">
         <span class="el-icon-close" @click="close"></span>
@@ -10,10 +10,7 @@
     </div>
     <div class="contacts-container">
       <div class="contacts-container-box">
-        <div class="box-header" @click="handleLabelClick('friends')">
-          好友列表
-        </div>
-        <div class="box-list" v-show="friendsListShow">
+        <div class="box-list">
           <ul v-if="friendsList.length">
             <li class="box-list-item" v-for="(item, index) in friendsList" :key="index">
               <div class="item-avator">
@@ -47,26 +44,6 @@
             </li>
           </ul>
           <div class="box-list-null" v-else>您还没有好友</div>
-        </div>
-      </div>
-      <div class="contacts-container-box">
-        <div class="box-header" @click="handleLabelClick('grounp')">
-          我的群组
-        </div>
-        <div class="box-list" v-show="grounpListShow">
-          <ul>
-            <li class="box-list-item">
-              <div class="item-avator">
-                <el-avatar shape="square" :size="30" ></el-avatar>
-              </div>
-              <div class="item-name">
-                ssssssssssssssssssssssss
-              </div>
-              <div class="item-btn">
-                <span class="el-icon-chat-dot-round"></span>
-              </div>
-            </li>
-          </ul>
         </div>
       </div>
       <div class="contacts-search">
@@ -107,7 +84,7 @@
 <script>
 export default {
   name: 'contacts',
-  props: ['closeCallback', 'openChatWindow'],
+  props: ['closeCallback', 'openChatWindow', 'closeChatWindow'],
   data () {
     return {
       visible: false,
@@ -115,9 +92,7 @@ export default {
       searchVal: '',
       searchContainerShow: false,
       searchList: [],
-      friendsList: [],
-      friendsListShow: false,
-      grounpListShow: false
+      friendsList: []
     }
   },
   computed: {
@@ -204,32 +179,13 @@ export default {
         console.log(err)
       })
     },
-    // 显示隐藏列表
-    handleLabelClick (labelName) {
-      switch (labelName) {
-        case 'friends':
-          this.friendsListShow = !this.friendsListShow
-          break
-        case 'grounp':
-          this.grounpListShow = !this.grounpListShow
-          break
-        default:
-          break
-      }
-    },
     // 关闭侧边栏
     close () {
       this.closeCallback()
     },
     // 打开聊天窗口
     openWindow (row) {
-      let targetData = {
-        mark: row.sourceMark,
-        name: row.sourceName,
-        id: row.sourceUid
-      }
-      this.openChatWindow()
-      this.$store.commit('setTarget', targetData)
+      this.$store.commit('setTarget', row)
       let targetUid = row.sourceUid === this.user.id ? row.targetUid : row.sourceUid
       let data = {
         friendsId: row.id,
@@ -238,6 +194,7 @@ export default {
       }
       this.$socket.emit('JoinRoom', data)
       this.$store.commit('setFriendsId', row.id)
+      this.openChatWindow()
     }
   }
 }

@@ -23,6 +23,22 @@
   text-align: center;
   color: #fff;
 }
+.contacts .contacts-header .contacts-header-add {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  right: 30px;
+  text-align: center;
+  line-height: 40px;
+}
+.contacts .contacts-header .contacts-header-add .el-icon-plus {
+  color: #fff;
+  cursor: pointer;
+}
+.contacts .contacts-header .contacts-header-add .el-icon-plus:hover {
+  font-weight: 600;
+}
 .contacts .contacts-header .contacts-header-close {
   width: 40px;
   height: 40px;
@@ -45,16 +61,6 @@
 }
 .contacts .contacts-container .contacts-container-box {
   width: 100%;
-}
-.contacts .contacts-container .contacts-container-box .box-header {
-  width: 100%;
-  height: 30px;
-  text-align: left;
-  padding-left: 15px;
-  line-height: 30px;
-  color: #fff;
-  cursor: pointer;
-  border-bottom: 1px solid #F2F1F6;
 }
 .contacts .contacts-container .contacts-container-box .box-list {
   background: #ffffff;

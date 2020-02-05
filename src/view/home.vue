@@ -42,16 +42,19 @@
               <span :index="2" class="el-icon-user"></span>
             </li>
             <li :class="{'aside-item': true, 'aside-item_active': menuActive === 3}" @click="handleMenu">
-              <span :index="3" class="el-icon-bell "></span>
+              <span :index="3" class="el-icon-copy-document "></span>
             </li>
             <li :class="{'aside-item': true, 'aside-item_active': menuActive === 4}" @click="handleMenu">
-              <span :index="4" class="el-icon-collection-tag "></span>
+              <span :index="4" class="el-icon-bell "></span>
             </li>
             <li :class="{'aside-item': true, 'aside-item_active': menuActive === 5}" @click="handleMenu">
-              <span :index="5" class="el-icon-folder"></span>
+              <span :index="5" class="el-icon-collection-tag "></span>
             </li>
             <li :class="{'aside-item': true, 'aside-item_active': menuActive === 6}" @click="handleMenu">
-              <span :index="6" class="el-icon-menu"></span>
+              <span :index="6" class="el-icon-folder"></span>
+            </li>
+            <li :class="{'aside-item': true, 'aside-item_active': menuActive === 7}" @click="handleMenu">
+              <span :index="7" class="el-icon-menu"></span>
             </li>
           </ul>
           <div class="aside-bottom">
@@ -63,7 +66,10 @@
         <div :class="{'home-main': true, ' home-main-show': menuActive}">
           <div class="home-main-asid" v-if="menuActive">
             <keep-alive>
-              <component v-bind:is="asideComments" :closeCallback="closeAside" :openChatWindow="openChatWindow"></component>
+              <component v-bind:is="asideComments"
+                         :closeCallback="closeAside"
+                         :openChatWindow="openChatWindow"
+                         :openGroupChatWindow="openGroupChatWindow"></component>
             </keep-alive>
           </div>
           <div class="home-main-view">
@@ -72,7 +78,10 @@
         </div>
       </el-main>
     </el-container>
-    <chatWindow v-if="chatWindowShow" :closeCallback="closeChatWindow"></chatWindow>
+    <keep-alive>
+      <chatWindow v-if="chatWindowShow" :closeCallback="closeChatWindow"></chatWindow>
+      <groupChatWindow v-if="groupChatWindow" :closeCallback="closeGroupChatWindow"></groupChatWindow>
+    </keep-alive>
   </div>
 </template>
 
@@ -80,12 +89,15 @@
 import contactts from '../components/aside/contacts'
 import history from '../components/aside/history'
 import message from '../components/aside/message'
+import group from '../components/aside/group'
 import chatWindow from '../components/chatWindow/chatWindow'
+import groupChatWindow from '../components/chatWindow/groupChatWindow'
 export default {
   name: 'home',
   data () {
     return {
       chatWindowShow: false,
+      groupChatWindow: false,
       isShow: true,
       menuActive: 0,
       phone: '',
@@ -98,7 +110,9 @@ export default {
     contactts,
     history,
     message,
-    chatWindow
+    group,
+    chatWindow,
+    groupChatWindow
   },
   computed: {
     user: function () {
@@ -135,6 +149,9 @@ export default {
           this.asideComments = 'contactts'
           break
         case 3:
+          this.asideComments = 'group'
+          break
+        case 4:
           this.asideComments = 'message'
           break
         default:
@@ -152,6 +169,14 @@ export default {
     // 关闭聊天窗口
     closeChatWindow () {
       this.chatWindowShow = false
+    },
+    // 打开群组聊天窗口
+    openGroupChatWindow () {
+      this.groupChatWindow = true
+    },
+    // 关闭群组聊天窗口
+    closeGroupChatWindow () {
+      this.groupChatWindow = false
     }
   }
 }

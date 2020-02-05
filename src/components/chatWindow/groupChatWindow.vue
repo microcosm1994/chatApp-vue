@@ -1,8 +1,9 @@
 <template>
   <div class="chatWindow" ref="chatWindow">
     <div class="chatWindow-header" @mousedown="dropChatWindow" @mouseup="stop" @mouseleave="stop">
-      {{target.sourceName === user.nickName ? target.targetMark : target.sourceMark}}
+      {{group.groupName}}
       <div class="chatWindow-header-tool">
+        <span class="el-icon-s-unfold"></span>
         <span class="el-icon-close" @click="close"></span>
       </div>
     </div>
@@ -10,7 +11,7 @@
       <div class="chatWindow-container-chat" ref="chatWindow-container-chat">
         <ul>
           <li class="chat-msg" v-for="(item, index) in msgData" :key="index" v-if="msgData.length">
-            <div :class="[user.id === item.sourceUid ? 'chat-msg-right': 'chat-msg-left']">
+            <div :class="[user.id === item.userId ? 'chat-msg-right': 'chat-msg-left']">
               <div class="chat-msg-avator">
                 <el-avatar shape="square" :size="30"></el-avatar>
               </div>
@@ -48,24 +49,19 @@ export default {
   },
   computed: {
     user: function () {
-      console.log(this.$store.state.user)
       return this.$store.state.user
     },
-    target: function () {
-      console.log(this.$store.state.target)
-      return this.$store.state.target
-    },
-    friendsId: function () {
-      return this.$store.state.friendsId
+    group: function () {
+      return this.$store.state.group
     }
   },
   sockets: {
-    RoomMsg: function (data) {
+    GroupRoomMsg: function (data) {
       this.msgData.push(data)
     }
   },
   activated () {
-    this.getMsgList()
+    this.getGroupMsgList()
     this.setScroll()
   },
   methods: {
@@ -73,13 +69,13 @@ export default {
     decodeMsg (val) {
       return decodeURI(val)
     },
-    // 获取消息列表
-    getMsgList () {
+    // 获取群消息列表
+    getGroupMsgList () {
       let data = {
-        friendsId: this.friendsId
+        groupId: this.group.id
       }
       this.msgData = []
-      this.$api.msg.getMsgList(data).then((res) => {
+      this.$api.groupMsg.getGroupMsgList(data).then((res) => {
         if (res.status) {
           this.msgData = res.data
         }
@@ -95,13 +91,11 @@ export default {
       }
       this.$refs['reply-input'].innerHTML = ''
       let data = {
-        friendsId: this.friendsId,
-        targetUid: this.target.id,
-        sourceUid: this.user.id,
+        groupId: this.group.id,
+        userId: this.user.id,
         content: encodeURI(msg)
       }
-      console.log(data)
-      this.$socket.emit('SendMessage', data)
+      this.$socket.emit('SendGroupMessage', data)
       this.setScroll()
     },
     // 聊天窗口拖拽
