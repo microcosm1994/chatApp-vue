@@ -7,7 +7,6 @@
   transform: translateX(-50%) translateY(-50%);
   background: #ffffff;
   border: 1px solid #ccc;
-  overflow: hidden;
   z-index: 999;
 }
 .chatWindow .chatWindow-header {
@@ -18,6 +17,19 @@
   line-height: 50px;
   padding-left: 20px;
   position: relative;
+}
+.chatWindow .chatWindow-header .el-icon-video-camera {
+  cursor: pointer;
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+.chatWindow .chatWindow-header .el-icon-video-camera:hover {
+  font-size: 17px;
 }
 .chatWindow .chatWindow-header .chatWindow-header-tool {
   position: absolute;
@@ -188,6 +200,39 @@
 .chatWindow .chatWindow-container .chatWindow-container-chat .chatWindow-container-reply .reply-send-btn:active {
   font-size: 17px;
   font-weight: 600;
+}
+.chatWindow .chatWindow-video {
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  right: -300px;
+  top: 0;
+}
+.chatWindow .chatWindow-video .chatWindow-video-req {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding-top: 40px;
+}
+.chatWindow .chatWindow-video .chatWindow-video-req .req-name {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+.chatWindow .chatWindow-video .chatWindow-video-req .req-des {
+  margin-top: 5px;
+  font-size: 14px;
+}
+.chatWindow .chatWindow-video .chatWindow-video-req .req-btn {
+  width: 100%;
+  margin-top: 20px;
+}
+.chatWindow .chatWindow-video .chatWindow-video-loading {
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
 .tool-Box {
   width: 100%;

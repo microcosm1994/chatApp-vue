@@ -13,7 +13,6 @@ export default {
   },
   get: (name) => {
     let cookies = this.a.cookies()
-    console.log(cookies)
     let cookie = cookies[name]
     return decodeURIComponent(cookie)
   },

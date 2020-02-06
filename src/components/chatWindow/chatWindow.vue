@@ -2,6 +2,7 @@
   <div class="chatWindow" ref="chatWindow">
     <div class="chatWindow-header" @mousedown="dropChatWindow" @mouseup="stop" @mouseleave="stop">
       {{target.sourceName === user.nickName ? target.targetMark : target.sourceMark}}
+      <span class="el-icon-video-camera" @click="openVideo"></span>
       <div class="chatWindow-header-tool">
         <span class="el-icon-close" @click="close"></span>
       </div>
@@ -32,10 +33,36 @@
         </div>
       </div>
     </div>
+    <div class="chatWindow-video" v-if="videoBoxShow">
+      <keep-alive>
+        <Video v-if="videoShow" :closeVideo="closeVideo"></Video>
+      </keep-alive>
+      <div class="chatWindow-video-req" v-if="videoReq">
+        <div class="req-avator">
+          <el-avatar :size="80"></el-avatar>
+        </div>
+        <div class="req-name">
+          {{reqName}}
+        </div>
+        <p class="req-des">请求与您视频通话</p>
+        <div class="req-btn">
+          <el-button size="mini" type="success" @click="okVideoReq">接听</el-button>
+          <el-button size="mini" type="danger" @click="closeVideo">结束</el-button>
+        </div>
+      </div>
+      <div class="chatWindow-video-loading"
+           v-if="videoLoading"
+           v-loading="videoLoading"
+           element-loading-text="请等待对方回应"
+           element-loading-spinner="el-icon-loading"
+           element-loading-background="rgba(0, 0, 0, 0.8)"
+      ></div>
+    </div>
   </div>
 </template>
 
 <script>
+import Video from './video'
 export default {
   name: 'contacts',
   props: ['closeCallback'],
@@ -43,16 +70,22 @@ export default {
     return {
       flag: true,
       range: null,
-      msgData: []
+      msgData: [],
+      videoLoading: false,
+      videoBoxShow: false,
+      videoReq: false,
+      videoShow: false,
+      reqName: ''
     }
+  },
+  components: {
+    Video
   },
   computed: {
     user: function () {
-      console.log(this.$store.state.user)
       return this.$store.state.user
     },
     target: function () {
-      console.log(this.$store.state.target)
       return this.$store.state.target
     },
     friendsId: function () {
@@ -62,11 +95,28 @@ export default {
   sockets: {
     RoomMsg: function (data) {
       this.msgData.push(data)
+      this.setScroll()
+    },
+    video_req_result: function (data) {
+      console.log(data)
+      if (data.data) {
+        this.videoBoxShow = true
+        this.videoLoading = false
+        this.videoReq = false
+        this.videoShow = true
+      } else {
+        this.videoReq = false
+        this.videoLoading = false
+        this.videoBoxShow = false
+      }
+      console.log(this.videoBoxShow)
+      console.log(this.videoLoading)
+      console.log(this.videoReq)
+      console.log(this.videoShow)
     }
   },
   activated () {
     this.getMsgList()
-    this.setScroll()
   },
   methods: {
     // 消息内容解码
@@ -82,6 +132,7 @@ export default {
       this.$api.msg.getMsgList(data).then((res) => {
         if (res.status) {
           this.msgData = res.data
+          this.setScroll()
         }
       }).catch(err => {
         console.log(err)
@@ -100,7 +151,6 @@ export default {
         sourceUid: this.user.id,
         content: encodeURI(msg)
       }
-      console.log(data)
       this.$socket.emit('SendMessage', data)
       this.setScroll()
     },
@@ -164,9 +214,43 @@ export default {
     },
     // 让滚动条一直保持在底部
     setScroll () {
-      let scrollHeight = this.$refs['chatWindow'].scrollHeight
+      let scrollHeight = this.$refs['chatWindow-container-chat'].scrollHeight
       // 聊天界面滚动条一直保持在底部
-      this.$refs['chatWindow-container-chat'].scrollTop = scrollHeight
+      this.$refs['chatWindow-container-chat'].scrollTop = scrollHeight + 50
+    },
+    // 打开视频
+    openVideo () {
+      let mark = this.user.id === this.target.sourceUid ? this.target.sourceMark : this.target.targetMark
+      let name = this.user.id === this.target.sourceUid ? this.target.sourceName : this.target.targetName
+      let targetId = this.user.id === this.target.sourceUid ? this.target.targetUid : this.target.sourceUid
+      // 加入视频房间
+      this.$socket.emit('video_room', {
+        name: encodeURI(mark || name),
+        targetId: targetId,
+        friendsId: this.friendsId // 房间号
+      })
+      this.videoReq = false
+      this.videoShow = false
+      this.videoBoxShow = true
+      this.videoLoading = true
+    },
+    // 关闭视频
+    closeVideo () {
+      this.$socket.emit('video_req', {
+        data: 0,
+        friendsId: this.friendsId
+      })
+      this.videoBoxShow = false
+      this.videoReq = false
+      this.videoShow = false
+    },
+    // 接听视频
+    okVideoReq () {
+      this.openVideo()
+      this.$socket.emit('video_req', {
+        data: 1,
+        friendsId: this.friendsId
+      })
     }
   }
 }

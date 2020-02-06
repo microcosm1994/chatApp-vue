@@ -100,15 +100,9 @@ export default {
     }, 1000)
   },
   sockets: {
-    connect: function () {
-      console.log('socket connected')
-    },
-    disconnect: function (res) {
-      console.log('disconnect', res)
-    },
-    ConnStatus: function (data) {
-      console.log(data)
-    }
+    connect: function () {},
+    disconnect: function (res) {},
+    ConnStatus: function (data) {}
   },
   methods: {
     // 测试socket是否连接

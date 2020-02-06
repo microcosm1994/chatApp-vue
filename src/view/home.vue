@@ -79,8 +79,8 @@
       </el-main>
     </el-container>
     <keep-alive>
-      <chatWindow v-if="chatWindowShow" :closeCallback="closeChatWindow"></chatWindow>
-      <groupChatWindow v-if="groupChatWindow" :closeCallback="closeGroupChatWindow"></groupChatWindow>
+      <chatWindow v-if="chatWindowShow" :closeCallback="closeChatWindow" ref="chat"></chatWindow>
+      <groupChatWindow v-if="groupChatWindow" :closeCallback="closeGroupChatWindow" :closeAside="closeAside"></groupChatWindow>
     </keep-alive>
   </div>
 </template>
@@ -103,7 +103,8 @@ export default {
       phone: '',
       code: '',
       isLoading: false,
-      asideComments: ''
+      asideComments: '',
+      timer: null
     }
   },
   components: {
@@ -114,12 +115,27 @@ export default {
     chatWindow,
     groupChatWindow
   },
+  sockets: {
+    // 监听视频请求
+    VideoReq: function (data) {
+      let name = decodeURI(data.name)
+      this.chatWindowShow = true
+      this.timer = setTimeout(() => {
+        this.$refs.chat.reqName = name
+        this.$refs.chat.videoLoading = false
+        this.$refs.chat.videoShow = false
+        this.$refs.chat.videoBoxShow = true
+        this.$refs.chat.videoReq = true
+      }, 300)
+    }
+  },
   computed: {
     user: function () {
       return this.$store.state.user
     }
   },
   mounted () {
+    console.log(this.$refs)
   },
   methods: {
     handleCommand (command) {
@@ -177,7 +193,6 @@ export default {
     // 关闭群组聊天窗口
     closeGroupChatWindow () {
       this.groupChatWindow = false
-      this.closeAside()
     }
   }
 }

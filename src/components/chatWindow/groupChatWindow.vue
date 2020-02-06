@@ -94,7 +94,7 @@
 <script>
 export default {
   name: 'contacts',
-  props: ['closeCallback'],
+  props: ['closeCallback', 'closeAside'],
   data () {
     return {
       flag: true,
@@ -171,6 +171,7 @@ export default {
       this.$api.group.delGroupUser(data).then((res) => {
         if (res.status) {
           this.closeCallback()
+          this.closeAside()
         }
       }).catch(err => {
         console.log(err)
