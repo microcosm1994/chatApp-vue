@@ -74,6 +74,7 @@ export default {
       let data = {
         phone: this.phone
       }
+      console.log(data)
       this.$api.login.login(data).then(res => {
         this.isShow = false
         if (res.status) {
@@ -94,7 +95,7 @@ export default {
       this.$api.login.checkCode(data).then(res => {
         if (res.status) {
           this.$store.commit('setUser', res.data)
-          this.$utils.cookie.set('t', res.t, {
+          this.$cookie.set('t', res.t, {
             expires: 1
           })
           this.$router.push({

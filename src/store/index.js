@@ -12,6 +12,7 @@ export default new vuex.Store({
   state: {
     user: null,
     target: null,
+    targetId: null,
     group: null,
     groupMemberId: null,
     friendsId: null
@@ -22,6 +23,9 @@ export default new vuex.Store({
     },
     setTarget (state, data) {
       state.target = data
+    },
+    setTargetId (state, data) {
+      state.targetId = data
     },
     setGroup (state, data) {
       state.group = data

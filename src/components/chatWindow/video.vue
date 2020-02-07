@@ -39,11 +39,15 @@ export default {
     },
     friendsId: function () {
       return this.$store.state.friendsId
+    },
+    targetId: function () {
+      return this.$store.state.targetId
     }
   },
   sockets: {
     VideoIce: function (data) {
-      if (this.listenOn) {
+      console.log('ICE', data)
+      if (this.listenOn && data.targetId === this.user.id) {
         if (data.type === 'local') {
           this.remotePeer.addIceCandidate(data.data)
         }
@@ -53,12 +57,16 @@ export default {
       }
     },
     VideoOffer: function (data) {
-      if (this.listenOn) {
-        this.createAns(data)
+      console.log('OFFER', data)
+      if (this.listenOn && data.targetId === this.user.id) {
+        if (data.type === 'local') {
+          this.createAns(data)
+        }
       }
     },
     VideoAnswer: function (data) {
-      if (this.listenOn) {
+      console.log('ANSWER', data)
+      if (this.listenOn && data.targetId === this.user.id) {
         this.localPeer.setRemoteDescription(data.data)
       }
     }
@@ -85,7 +93,10 @@ export default {
       if (!navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia = function (constraints) {
           // 首先，如果有getUserMedia的话，就获得它
-          let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+          let getUserMedia = (navigator.getUserMedia ||
+              navigator.webkitGetUserMedia ||
+              navigator.mozGetUserMedia ||
+              navigator.msGetUserMedia)
 
           // 一些浏览器根本没实现它 - 那么就返回一个error到promise的reject来保持一个统一的接口
           if (!getUserMedia) {
@@ -102,56 +113,62 @@ export default {
         /* 使用这个stream stream */
         localVideo.srcObject = stream
         // 保存视频流
-        self.localStream = stream
+        this.localStream = stream
         this.listenOn = true
-        self.createPeerConnection(stream)
       }).catch((err) => {
         if (err) {
+          console.log(err)
           this.listenOn = false
           self.$message.error('无法获取摄像头')
         }
       })
+      self.createPeerConnection()
     },
     // 创建视频连接实例
-    createPeerConnection (stream) {
-      if (stream) {
+    createPeerConnection () {
+      let self = this
+      if (this.localStream) {
         let PeerConnection = window.RTCPeerConnection ||
-            window.mozRTCPeerConnection ||
-            window.webkitRTCPeerConnection
+          window.mozRTCPeerConnection ||
+          window.webkitRTCPeerConnection
         this.localPeer = new PeerConnection()
         this.remotePeer = new PeerConnection()
-        this.localPeer.oniceconnectionstatechange = () => {
-          console.log(this.localPeer.iceConnectionState)
+        console.log('localPeer', this.localPeer)
+        this.localPeer.addStream(this.localStream)
+        // this.localStream.getTracks().forEach(item => {
+        //   self.localPeer.addTrack(item, self.localStream)
+        // })
+        this.localPeer.onconnectionstatechange = function (res) {
+          console.log(self.user.id, '--localPeer--' + self.localPeer.connectionState)
         }
-        this.remotePeer.oniceconnectionstatechange = () => {
-          console.log(this.remotePeer.iceConnectionState)
+        this.remotePeer.onconnectionstatechange = function (res) {
+          console.log(self.user.id, '--remotePeer--' + self.remotePeer.connectionState)
         }
-        stream.getTracks().forEach(item => {
-          this.localPeer.addTrack(item, stream)
-        })
-        // 创建offer
-        this.localPeer.createOffer().then(offer => {
-          this.localPeer.setLocalDescription(offer).then(() => {
-            this.sendOffer('local', offer)
-          })
-        })
         // 创建信令
         this.localPeer.onicecandidate = (e) => {
           if (e.candidate) {
+            console.log('candidate', e)
             this.sendIce('local', e.candidate)
           }
         }
         // 监听从对方过来的媒体流
         this.remotePeer.onaddstream = (e) => {
           if (e.stream) {
+            console.log('E.Stream', e.stream)
             let tVideo = this.$refs.remoteVideo
             tVideo.srcObject = e.stream
           }
         }
+        // 创建offer
+        this.localPeer.createOffer().then(offer => {
+          this.localPeer.setLocalDescription(offer).then(() => {
+            this.sendOffer('local', offer)
+          })
+        })
       } else {
         setTimeout(() => {
           this.createPeerConnection()
-        }, 100)
+        }, 200)
       }
     },
     // 创建offer
@@ -186,6 +203,7 @@ export default {
     sendIce (type, data) {
       this.$socket.emit('video_ice', {
         type: type,
+        targetId: this.targetId,
         friendsId: this.friendsId // 房间号
       }, data)
     },
@@ -193,12 +211,14 @@ export default {
     sendOffer (type, data) {
       this.$socket.emit('video_offer', {
         type: type,
+        targetId: this.targetId,
         friendsId: this.friendsId // 房间号
       }, data)
     },
     // 发送应答
     sendAnswer (data) {
       this.$socket.emit('video_answer', {
+        targetId: this.targetId,
         friendsId: this.friendsId // 房间号
       }, data)
     }

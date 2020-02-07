@@ -120,6 +120,7 @@ export default {
     VideoReq: function (data) {
       let name = decodeURI(data.name)
       this.chatWindowShow = true
+      this.$store.commit('setFriendsId', data.friendsId)
       this.timer = setTimeout(() => {
         this.$refs.chat.reqName = name
         this.$refs.chat.videoLoading = false
@@ -134,9 +135,7 @@ export default {
       return this.$store.state.user
     }
   },
-  mounted () {
-    console.log(this.$refs)
-  },
+  mounted () {},
   methods: {
     handleCommand (command) {
       switch (command) {

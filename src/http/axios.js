@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Config from './config'
-import utils from '../utils'
+import cookie from 'js-cookie'
 import router from '../router'
 import {Message} from 'element-ui'
 
@@ -17,7 +17,7 @@ export default function $axios (options) {
       config => {
         config.baseURL = Config.baseURL
         // 获取token
-        let t = utils.cookie.get('t')
+        let t = cookie.get('t')
         // 携带token
         if (t) {
           config.headers.t = t
@@ -26,9 +26,9 @@ export default function $axios (options) {
           router.push('/')
         }
         // 根据请求方法，序列化传来的参数（根据后端需求是否序列化）
-        if (config.method === 'post') {
-          config.data = config.data
-        }
+        // if (config.method === 'post') {
+        //   config.data = config.data
+        // }
         return config
       },
       error => {
@@ -52,6 +52,7 @@ export default function $axios (options) {
     instance.interceptors.response.use(
       response => {
         let data
+        console.log(response)
         if (response.data) {
           data = response.data
         } else {
@@ -73,7 +74,7 @@ export default function $axios (options) {
         return data
       },
       error => {
-        let data = error.response.data
+        console.log(error)
         console.log(error.response)
         if (error && error.response.status) {
           switch (error.response.status) {
@@ -81,6 +82,10 @@ export default function $axios (options) {
               error.message = '请求错误'
               break
             case 401:
+              let data = null
+              if (error.response.data) {
+                data = error.response.data
+              }
               Message.error(data.msg)
               error.message = 'token验证错误'
               router.push('/')

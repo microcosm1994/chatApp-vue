@@ -185,8 +185,9 @@ export default {
     },
     // 打开聊天窗口
     openWindow (row) {
-      this.$store.commit('setTarget', row)
       let targetUid = row.sourceUid === this.user.id ? row.targetUid : row.sourceUid
+      this.$store.commit('setTarget', row)
+      this.$store.commit('setTargetId', targetUid)
       let data = {
         friendsId: row.id,
         targetUid: targetUid,

@@ -6,6 +6,7 @@ import http from './http'
 import utils from './utils'
 import store from './store'
 import filters from './filer'
+import cookie from 'js-cookie'
 import VueSocketIO from 'vue-socket.io'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/publick.css'
@@ -21,6 +22,7 @@ Vue.use(new VueSocketIO({
 }))
 
 Vue.config.productionTip = false
+Vue.prototype.$cookie = cookie
 Vue.prototype.$utils = utils
 Vue.prototype.$store = store
 

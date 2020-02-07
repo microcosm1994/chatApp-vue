@@ -98,7 +98,6 @@ export default {
       this.setScroll()
     },
     video_req_result: function (data) {
-      console.log(data)
       if (data.data) {
         this.videoBoxShow = true
         this.videoLoading = false
@@ -109,10 +108,6 @@ export default {
         this.videoLoading = false
         this.videoBoxShow = false
       }
-      console.log(this.videoBoxShow)
-      console.log(this.videoLoading)
-      console.log(this.videoReq)
-      console.log(this.videoShow)
     }
   },
   activated () {
@@ -224,15 +219,24 @@ export default {
       let name = this.user.id === this.target.sourceUid ? this.target.sourceName : this.target.targetName
       let targetId = this.user.id === this.target.sourceUid ? this.target.targetUid : this.target.sourceUid
       // 加入视频房间
-      this.$socket.emit('video_room', {
+      this.videoRoom()
+      // 发送视频请求
+      this.$socket.emit('video_send_req', {
         name: encodeURI(mark || name),
-        targetId: targetId,
-        friendsId: this.friendsId // 房间号
+        friendsId: this.friendsId,
+        targetId: targetId
       })
       this.videoReq = false
       this.videoShow = false
       this.videoBoxShow = true
       this.videoLoading = true
+    },
+    // 加入房间
+    videoRoom () {
+      // 加入视频房间
+      this.$socket.emit('video_room', {
+        friendsId: this.friendsId // 房间号
+      })
     },
     // 关闭视频
     closeVideo () {
@@ -246,7 +250,13 @@ export default {
     },
     // 接听视频
     okVideoReq () {
-      this.openVideo()
+      // 加入视频房间
+      this.videoRoom()
+      // 加入聊天房间
+      this.$socket.emit('JoinRoom', {
+        friendsId: this.friendsId
+      })
+      // 发送同意请求
       this.$socket.emit('video_req', {
         data: 1,
         friendsId: this.friendsId
