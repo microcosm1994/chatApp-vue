@@ -35,7 +35,7 @@
     </div>
     <div class="chatWindow-video" v-if="videoBoxShow">
       <keep-alive>
-        <Video v-if="videoShow" :closeVideo="closeVideo"></Video>
+        <Video v-if="videoShow" :closeVideo="closeVideo" ref="Video"></Video>
       </keep-alive>
       <div class="chatWindow-video-req" v-if="videoReq">
         <div class="req-avator">
@@ -50,13 +50,15 @@
           <el-button size="mini" type="danger" @click="closeVideo">结束</el-button>
         </div>
       </div>
-      <div class="chatWindow-video-loading"
-           v-if="videoLoading"
-           v-loading="videoLoading"
-           element-loading-text="请等待对方回应"
-           element-loading-spinner="el-icon-loading"
-           element-loading-background="rgba(0, 0, 0, 0.8)"
-      ></div>
+      <div class="chatWindow-video-loading" v-if="videoLoading">
+        <div class="loading"
+             v-loading="videoLoading"
+             element-loading-text="请等待对方回应"
+             element-loading-spinner="el-icon-loading"
+             element-loading-background="rgba(0, 0, 0, 0.8)"
+        ></div>
+        <el-button size="mini" type="danger" @click="closeVideo">取消</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -104,8 +106,15 @@ export default {
         this.videoReq = false
         this.videoShow = true
       } else {
+        if (this.$refs.Video) {
+          this.$refs.Video.localPeer.close()
+        }
+        if (this.$refs.Video) {
+          this.$refs.Video.remotePeer.close()
+        }
         this.videoReq = false
         this.videoLoading = false
+        this.videoShow = false
         this.videoBoxShow = false
       }
     }
@@ -244,9 +253,6 @@ export default {
         data: 0,
         friendsId: this.friendsId
       })
-      this.videoBoxShow = false
-      this.videoReq = false
-      this.videoShow = false
     },
     // 接听视频
     okVideoReq () {

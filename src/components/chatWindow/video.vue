@@ -4,7 +4,7 @@
       <video object-fit="fill" autoPlay ref='remoteVideo'></video>
     </div>
     <div class="video-local">
-      <video object-fit="fill" autoPlay ref='localVideo'></video>
+      <video autoPlay ref='localVideo'></video>
     </div>
     <div class="video-tool">
       <div class="video-tool-btn">
@@ -46,7 +46,6 @@ export default {
   },
   sockets: {
     VideoIce: function (data) {
-      console.log('ICE', data)
       if (this.listenOn && data.targetId === this.user.id) {
         if (data.type === 'local') {
           this.remotePeer.addIceCandidate(data.data)
@@ -57,7 +56,6 @@ export default {
       }
     },
     VideoOffer: function (data) {
-      console.log('OFFER', data)
       if (this.listenOn && data.targetId === this.user.id) {
         if (data.type === 'local') {
           this.createAns(data)
@@ -65,7 +63,6 @@ export default {
       }
     },
     VideoAnswer: function (data) {
-      console.log('ANSWER', data)
       if (this.listenOn && data.targetId === this.user.id) {
         this.localPeer.setRemoteDescription(data.data)
       }
@@ -117,7 +114,6 @@ export default {
         this.listenOn = true
       }).catch((err) => {
         if (err) {
-          console.log(err)
           this.listenOn = false
           self.$message.error('无法获取摄像头')
         }
@@ -126,35 +122,22 @@ export default {
     },
     // 创建视频连接实例
     createPeerConnection () {
-      let self = this
       if (this.localStream) {
         let PeerConnection = window.RTCPeerConnection ||
           window.mozRTCPeerConnection ||
           window.webkitRTCPeerConnection
         this.localPeer = new PeerConnection()
         this.remotePeer = new PeerConnection()
-        console.log('localPeer', this.localPeer)
         this.localPeer.addStream(this.localStream)
-        // this.localStream.getTracks().forEach(item => {
-        //   self.localPeer.addTrack(item, self.localStream)
-        // })
-        this.localPeer.onconnectionstatechange = function (res) {
-          console.log(self.user.id, '--localPeer--' + self.localPeer.connectionState)
-        }
-        this.remotePeer.onconnectionstatechange = function (res) {
-          console.log(self.user.id, '--remotePeer--' + self.remotePeer.connectionState)
-        }
         // 创建信令
         this.localPeer.onicecandidate = (e) => {
           if (e.candidate) {
-            console.log('candidate', e)
             this.sendIce('local', e.candidate)
           }
         }
         // 监听从对方过来的媒体流
         this.remotePeer.onaddstream = (e) => {
           if (e.stream) {
-            console.log('E.Stream', e.stream)
             let tVideo = this.$refs.remoteVideo
             tVideo.srcObject = e.stream
           }

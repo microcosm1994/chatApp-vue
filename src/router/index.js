@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import login from '@/view/login'
 import home from '@/view/home'
 import index from '@/view/index'
+import videoGroupList from '@/view/video_groupList'
+import videoGroup from '@/view/video_group'
 
 const routerPush = Router.prototype.push
 Router.prototype.push = function push (location) {
@@ -27,6 +29,16 @@ export default new Router({
           path: '/',
           name: 'index',
           component: index
+        },
+        {
+          path: '/index/video_groupList',
+          name: 'video_groupList',
+          component: videoGroupList
+        },
+        {
+          path: '/index/video_group',
+          name: 'video_group',
+          component: videoGroup
         }
       ]
     }

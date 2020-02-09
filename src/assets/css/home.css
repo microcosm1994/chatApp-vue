@@ -49,6 +49,15 @@
   cursor: pointer;
   color: #fff;
 }
+.home .header .header-menu ul .header-menu-item a {
+  color: #fff;
+}
+.home .header .header-menu ul .header-menu-item a:active {
+  color: #FFE900;
+}
+.home .header .header-menu ul .header-menu-item a:focus {
+  color: #FFE900;
+}
 .home .header .header-set {
   display: inline-block;
   vertical-align: top;
@@ -168,5 +177,7 @@
 .home .el-container .el-main .home-main .home-main-view {
   display: inline-block;
   vertical-align: top;
+  width: 100%;
+  height: 100%;
 }
 /*# sourceMappingURL=home.css.map */

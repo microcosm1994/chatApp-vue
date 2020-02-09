@@ -7,10 +7,10 @@
       <div class="header-menu">
         <ul>
           <li class="header-menu-item">
-            首页
+            <router-link to="/index">首页</router-link>
           </li>
           <li class="header-menu-item">
-            视频会议
+            <router-link to="/index/video_groupList">视频会议</router-link>
           </li>
         </ul>
       </div>
