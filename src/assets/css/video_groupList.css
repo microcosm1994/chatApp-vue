@@ -17,6 +17,10 @@
   width: 100%;
   text-align: center;
 }
+.video_group .video_group-container .video_group-container-list .el-divider__text {
+  background: #22222b;
+  color: #DCDFE6;
+}
 .video_group .video_group-container .video_group-container-list ul {
   overflow: hidden;
   padding-top: 30px;
@@ -81,6 +85,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: #ccc;
 }
 .video_group .video_group-container .video_group-container-list ul .list-item .item-btn {
   position: absolute;
