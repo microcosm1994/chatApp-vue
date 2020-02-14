@@ -133,6 +133,8 @@ export default {
         if (res.status) {
           this.getVideoGroupList()
           this.dialogVisible = false
+          this.group.name = ''
+          this.group.des = ''
         }
       }).catch(err => {
         console.log(err)
