@@ -52,7 +52,6 @@ export default function $axios (options) {
     instance.interceptors.response.use(
       response => {
         let data
-        console.log(response)
         if (response.data) {
           data = response.data
         } else {

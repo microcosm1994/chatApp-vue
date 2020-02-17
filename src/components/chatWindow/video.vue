@@ -57,9 +57,7 @@ export default {
     },
     VideoOffer: function (data) {
       if (this.listenOn && data.targetId === this.user.id) {
-        if (data.type === 'local') {
-          this.createAns(data)
-        }
+        this.createAns(data)
       }
     },
     VideoAnswer: function (data) {
@@ -145,7 +143,7 @@ export default {
         // 创建offer
         this.localPeer.createOffer().then(offer => {
           this.localPeer.setLocalDescription(offer).then(() => {
-            this.sendOffer('local', offer)
+            this.sendOffer(offer)
           })
         })
       } else {
@@ -158,11 +156,9 @@ export default {
     createAns (res) {
       if (this.remotePeer) {
         this.remotePeer.setRemoteDescription(res.data).then(() => {
-          if (res.type === 'local') {
-            this.remotePeer.onicecandidate = (e) => {
-              if (e.candidate) {
-                this.sendIce('remote', e.candidate)
-              }
+          this.remotePeer.onicecandidate = (e) => {
+            if (e.candidate) {
+              this.sendIce('remote', e.candidate)
             }
           }
           this.remotePeer.createAnswer().then(answer => {
@@ -191,9 +187,8 @@ export default {
       }, data)
     },
     // 发送信令
-    sendOffer (type, data) {
+    sendOffer (data) {
       this.$socket.emit('video_offer', {
-        type: type,
         targetId: this.targetId,
         friendsId: this.friendsId // 房间号
       }, data)

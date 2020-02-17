@@ -43,7 +43,7 @@
              {{item.createTime | timeFormat}}
             </div>
             <div class="item-btn">
-              <el-button size="mini" type="success" @click="joinRoom">加入</el-button>
+              <el-button size="mini" type="success" @click="joinRoom(item)">加入</el-button>
               <el-button size="mini" type="danger" v-if="item.groupMpId === user.id" @click="delVideoGroup(item)">删除</el-button>
             </div>
           </li>
@@ -102,7 +102,6 @@ export default {
   mounted () {
     this.getVideoGroupList()
   },
-  sockets: {},
   methods: {
     // 获取会议室列表
     getVideoGroupList () {
@@ -169,9 +168,33 @@ export default {
       })
     },
     // 加入会议室
-    joinRoom () {
-      this.$router.push({
-        path: '/index/video_group'
+    joinRoom (row) {
+      let data = {
+        user: {
+          id: this.user.id
+        },
+        videoGroup: {
+          id: row.id
+        }
+      }
+      this.$api.videoGroup.addVideoGroupMember(data).then((res) => {
+        if (res.status) {
+          let socketData = {
+            videoGroupId: row.id,
+            userId: this.user.id
+          }
+          this.$socket.emit('video_group_room', socketData)
+          this.$router.push({
+            name: 'video_group',
+            path: '/index/video_group',
+            params: {
+              row: row,
+              memberId: res.data
+            }
+          })
+        }
+      }).catch(err => {
+        console.log(err)
       })
     },
     handleClose (done) {

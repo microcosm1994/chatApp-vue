@@ -35,3 +35,30 @@ export const delVideoGroup = (data) => {
     data
   })
 }
+
+// 新增视频会议成员
+export const addVideoGroupMember = (data) => {
+  return axios({
+    url: '/group/addVideoGroupMember',
+    method: 'post',
+    data
+  })
+}
+
+// 获取视频会议成员
+export const getVideoGroupUserList = (data) => {
+  return axios({
+    url: '/group/getVideoGroupUserList',
+    method: 'post',
+    data
+  })
+}
+
+// 移除视频会议成员
+export const delVideoGroupUser = (data) => {
+  return axios({
+    url: '/group/delVideoGroupUser',
+    method: 'post',
+    data
+  })
+}
