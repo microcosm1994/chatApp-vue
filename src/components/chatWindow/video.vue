@@ -27,7 +27,18 @@ export default {
       remoteStream: null,
       localPeer: null,
       localStream: null,
-      listenOn: false
+      listenOn: false,
+      configuration: {
+        iceServers: [{
+          urls: 'turn:68.168.128.247:3478',
+          username: 'dubo',
+          credential: '113655'
+        }, {
+          urls: [
+            'stun:68.168.128.247:3478'
+          ]
+        }]
+      }
     }
   },
   computed: {
@@ -79,7 +90,7 @@ export default {
       let self = this
       let localVideo = this.$refs.localVideo
       let constraints = {
-        audio: false,
+        audio: true,
         video: true
       }
       if (navigator.mediaDevices === undefined) {
@@ -124,8 +135,8 @@ export default {
         let PeerConnection = window.RTCPeerConnection ||
           window.mozRTCPeerConnection ||
           window.webkitRTCPeerConnection
-        this.localPeer = new PeerConnection()
-        this.remotePeer = new PeerConnection()
+        this.localPeer = new PeerConnection(this.configuration)
+        this.remotePeer = new PeerConnection(this.configuration)
         this.localPeer.addStream(this.localStream)
         // 创建信令
         this.localPeer.onicecandidate = (e) => {
