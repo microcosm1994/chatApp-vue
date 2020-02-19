@@ -27,13 +27,18 @@
       </div>
     </div>
     <div class="video_group-right" v-if="boardShow">
-      <div class="right-board">sss</div>
-      <div class="right-tool"></div>
+      <Board
+        v-if="boardShow"
+        :remoteChannelMap="remoteChannelMap"
+        :localChannelMap="localChannelMap">
+      </Board>
     </div>
   </div>
 </template>
 
 <script>
+import Board from '../components/board/board'
+
 export default {
   name: 'video_group',
   data () {
@@ -48,6 +53,8 @@ export default {
       listData: [],
       localPeerMap: {},
       remotePeerMap: {},
+      localChannelMap: {},
+      remoteChannelMap: {},
       configuration: {
         iceServers: [{
           urls: 'turn:68.168.128.247:3478',
@@ -60,6 +67,9 @@ export default {
         }]
       }
     }
+  },
+  components: {
+    Board
   },
   computed: {
     user: function () {
@@ -118,6 +128,9 @@ export default {
       }).then((res) => {
         if (res.status) {
           this.listData = res.data
+          for (let i = 0; i < this.listData.length; i++) {
+            this.listData[i]['isLoading'] = true
+          }
           this.getUserMedia()
           this.createLocalPeer(this.listData)
           this.createRemotePeer(this.listData)
@@ -170,25 +183,33 @@ export default {
     },
     // 创建本地视频连接实例
     createLocalPeer (list) {
+      let self = this
       if (this.localStream && list.length) {
         let PeerConnection = window.RTCPeerConnection ||
             window.mozRTCPeerConnection ||
             window.webkitRTCPeerConnection
         for (let i = 0; i < list.length; i++) {
-          let item = list[i]
-          if (item.user.id !== this.user.id) {
-            this.localPeerMap['localPeer' + item.user.id] = new PeerConnection(this.configuration)
-            this.localPeerMap['localPeer' + item.user.id].addStream(this.localStream)
+          let userId = list[i].user.id
+          if (userId !== this.user.id) {
+            this.localPeerMap['localPeer' + userId] = new PeerConnection(this.configuration)
+            this.localPeerMap['localPeer' + userId].addStream(this.localStream)
+            // 监听peer连接状态
+            this.localPeerMap['localPeer' + userId].onconnectionstatechange = function () {
+              let status = self.localPeerMap['localPeer' + userId].connectionState
+              console.log('local', status)
+            }
+            // 创建数据通道
+            this.createLocalChannel(userId, this.localPeerMap['localPeer' + userId])
             // 创建信令
-            this.localPeerMap['localPeer' + item.user.id].onicecandidate = (e) => {
+            this.localPeerMap['localPeer' + userId].onicecandidate = (e) => {
               if (e.candidate) {
-                this.sendIce('local', item.user.id, e.candidate)
+                this.sendIce('local', userId, e.candidate)
               }
             }
             // 创建offer
-            this.localPeerMap['localPeer' + item.user.id].createOffer().then(offer => {
-              this.localPeerMap['localPeer' + item.user.id].setLocalDescription(offer).then(() => {
-                this.sendOffer(item.user.id, offer)
+            this.localPeerMap['localPeer' + userId].createOffer().then(offer => {
+              this.localPeerMap['localPeer' + userId].setLocalDescription(offer).then(() => {
+                this.sendOffer(userId, offer)
               })
             })
           }
@@ -201,18 +222,29 @@ export default {
     },
     // 创建远程视频连接实例
     createRemotePeer (list) {
+      let self = this
       if (this.localStream && list.length) {
         let PeerConnection = window.RTCPeerConnection ||
             window.mozRTCPeerConnection ||
             window.webkitRTCPeerConnection
         for (let i = 0; i < list.length; i++) {
-          let item = list[i]
-          if (item.user.id !== this.user.id) {
-            this.remotePeerMap['remotePeer' + item.user.id] = new PeerConnection(this.configuration)
+          let userId = list[i].user.id
+          if (userId !== this.user.id) {
+            this.remotePeerMap['remotePeer' + userId] = new PeerConnection(this.configuration)
+            // 监听peer连接状态
+            this.remotePeerMap['remotePeer' + userId].onconnectionstatechange = function () {
+              let status = self.remotePeerMap['remotePeer' + userId].connectionState
+              console.log('remote', status)
+              if (status === 'connected') {}
+              if (status === 'failed') {
+                self.$message.error('连接时发生错误，请退出重新加入。')
+              }
+            }
             // 监听从对方过来的媒体流
-            this.remotePeerMap['remotePeer' + item.user.id].onaddstream = (e) => {
+            this.remotePeerMap['remotePeer' + userId].onaddstream = (e) => {
               if (e.stream) {
-                let tVideo = this.$refs['video_' + item.user.id]
+                console.log(e.stream)
+                let tVideo = this.$refs['video_' + userId]
                 tVideo[0].srcObject = e.stream
               }
             }
@@ -226,6 +258,7 @@ export default {
     },
     // 创建offer
     createAns (res) {
+      let self = this
       if (Object.keys(this.remotePeerMap).length) {
         this.remotePeerMap['remotePeer' + res.userId].setRemoteDescription(res.data).then(() => {
           this.remotePeerMap['remotePeer' + res.userId].onicecandidate = (e) => {
@@ -238,11 +271,10 @@ export default {
             this.sendAnswer(res.userId, answer)
           })
         })
+        // 监听数据通道
         this.remotePeerMap['remotePeer' + res.userId].ondatachannel = function (e) {
-          let sendChannel = e.channel
-          sendChannel.onmessage = (e) => {
-            console.log(e.data)
-          }
+          // 创建远程数据通道
+          self.createRemoteChannel(res.userId, e)
         }
       } else {
         setTimeout(() => {
@@ -274,6 +306,18 @@ export default {
         targetId: targetId,
         videoGroupId: this.videoGroupId // 房间号
       }, data)
+    },
+    // 创建本地数据通道
+    createLocalChannel (userId, Peer) {
+      let channel = Peer.createDataChannel('board')
+      channel.onopen = (e) => {
+        console.log('local', e)
+        this.localChannelMap['channel' + userId] = channel
+      }
+    },
+    // 创建远程数据通道
+    createRemoteChannel (userId, obj) {
+      this.remoteChannelMap['channel' + userId] = obj.channel
     },
     // 获取Audio对象
     getAudio () {
