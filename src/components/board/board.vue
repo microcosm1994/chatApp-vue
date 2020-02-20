@@ -4,7 +4,6 @@
     <div class="board-tool">
       <el-button size="small" type="primary" icon="el-icon-edit" circle></el-button>
       <el-button size="small" type="primary" icon="el-icon-check" circle @click="sendChannel"></el-button>
-      <el-button size="small" type="primary" icon="el-icon-refresh-left" circle @click="replyChannel"></el-button>
     </div>
   </div>
 </template>
@@ -27,34 +26,43 @@ export default {
       return this.$route.params.row.id
     }
   },
-  watch: {
-    localChannelMap: {
-      handler: function (n, o) {
-        console.log(n)
-        console.log(o)
-      },
-      deep: true
-    }
-  },
   mounted () {
-    console.log(this.localChannelMap)
-    console.log(this.remoteChannelMap)
     // 监听远程数据通道消息
     this.onChannel()
   },
   methods: {
+    // 监听数据
     onChannel () {
+      for (let key in this.localChannelMap) {
+        this.localChannelMap[key].onmessage = (e) => {
+        }
+      }
       for (let key in this.remoteChannelMap) {
         this.remoteChannelMap[key].onmessage = (e) => {
-          console.log(e)
         }
       }
     },
+    // 使用local发送
     sendChannel () {
-      for (let key in this.localChannelMap) {
-        let channel = this.localChannelMap[key]
+      if (Object.keys(this.localChannelMap).length) {
+        for (let key in this.localChannelMap) {
+          let channel = this.localChannelMap[key]
+          if (channel && channel.readyState === 'open') {
+            channel.send(this.val)
+          } else {
+            this.replyChannel()
+          }
+        }
+      } else {
+        this.replyChannel()
+      }
+    },
+    // 使用remote发送（当local没有链接成功时使用）
+    replyChannel () {
+      for (let key in this.remoteChannelMap) {
+        let channel = this.remoteChannelMap[key]
         if (channel && channel.readyState === 'open') {
-          channel.send('localChannel', key, this.val)
+          channel.send(this.val)
         } else {
           this.$message.error('数据通道未开启')
         }

@@ -243,7 +243,6 @@ export default {
             // 监听从对方过来的媒体流
             this.remotePeerMap['remotePeer' + userId].onaddstream = (e) => {
               if (e.stream) {
-                console.log(e.stream)
                 let tVideo = this.$refs['video_' + userId]
                 tVideo[0].srcObject = e.stream
               }
@@ -313,11 +312,19 @@ export default {
       channel.onopen = (e) => {
         console.log('local', e)
         this.localChannelMap['channel' + userId] = channel
+        if (this.boardShow) {
+          this.boardShow = false
+        }
       }
     },
     // 创建远程数据通道
     createRemoteChannel (userId, obj) {
-      this.remoteChannelMap['channel' + userId] = obj.channel
+      obj.channel.onopen = (e) => {
+        this.remoteChannelMap['channel' + userId] = obj.channel
+        if (this.boardShow) {
+          this.boardShow = false
+        }
+      }
     },
     // 获取Audio对象
     getAudio () {
@@ -343,6 +350,14 @@ export default {
     },
     // 打开白板
     boardSwitch () {
+      if (!this.boardShow) {
+        if (Object.keys(this.localChannelMap).length < this.listData.length - 1) {
+          this.$message.error('您的画板连接失败，请退出重新加入。')
+        }
+        if (Object.keys(this.remoteChannelMap).length < this.listData.length - 1) {
+          this.$message.error('您的画板连接失败，请退出重新加入。')
+        }
+      }
       this.boardShow = !this.boardShow
     },
     // 退出/结束会议
